@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<!--
+  ══════════════════════════════════════════════════════════════
+   MyChoize — Confirmation Modal  (confirm-modal.html)
+   Standalone component. Drop the CSS block into services.html's
+   <style> replacing the CONFIRMATION MODAL section, paste the
+   HTML block where the old #confirmModal div was, and the JS
+   block replaces the old submitBooking / closeModal functions.
+  ══════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmation Modal — MyChoize (Preview)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════
+     ROOT VARS (already exist in services.html — not needed
+     when pasted there, kept here only for preview context)
+═══════════════════════════════════════════════════════════ -->
+<style>
+:root {
+    --navy:       #0d1b2a;
+    --navy-mid:   #1a2e45;
+    --gold:       #c9a84c;
+    --gold-light: #e8c97e;
+    --cream:      #f8f4ef;
+    --white:      #ffffff;
+    --gray:       #6b7280;
+    --light-gray: #f1f0ee;
+    --border:     #e5e7eb;
+    --text:       #1a1a2e;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: #e8e4df; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+
+/* ═══════════════════════════════════════════════════════
+   ▸  PASTE THIS ENTIRE CSS BLOCK INTO services.html
+      Replace the old "CONFIRMATION MODAL" CSS section.
+═══════════════════════════════════════════════════════════ */
+
+/* ── Overlay ──────────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(8, 18, 30, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+.modal-overlay.active {
+    display: flex;
+    animation: mOverlayIn 0.28s ease both;
+}
+@keyframes mOverlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── Box ──────────────────────────────────────────────── */
+.modal-box {
+    background: var(--white);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 540px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    position: relative;
+    margin: auto;
+    box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(201, 168, 76, 0.18);
+    animation: mBoxIn 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    scrollbar-width: none;
+}
+.modal-box::-webkit-scrollbar { display: none; }
+@keyframes mBoxIn {
+    from { opacity: 0; transform: scale(0.88) translateY(20px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);     }
+}
+
+/* ── Gold accent bar at top ──────────────────────────── */
+.modal-topbar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 60%, var(--gold) 100%);
+    border-radius: 24px 24px 0 0;
+}
+
+/* ── Close button ────────────────────────────────────── */
+.modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    background: var(--light-gray);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    z-index: 10;
+}
+.modal-close:hover {
+    background: var(--border);
+    border-color: #d1d5db;
+    transform: rotate(90deg);
+}
+.modal-close svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 2.5;
+}
+
+/* ── Header area ─────────────────────────────────────── */
+.modal-header {
+    padding: 36px 36px 28px;
+    text-align: center;
+    position: relative;
+}
+
+/* Animated success ring */
+.modal-success-ring {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-success-ring::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    animation: mRingSpin 3s linear infinite;
+    opacity: 0.35;
+}
+@keyframes mRingSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+.modal-success-ring::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--white);
+}
+.modal-check-inner {
+    position: relative;
+    z-index: 1;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201,168,76,0.18) 0%, rgba(201,168,76,0.08) 100%);
+    border: 1.5px solid rgba(201,168,76,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-check-inner svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: mCheckDraw 0.55s cubic-bezier(0.4,0,0.2,1) 0.3s both;
+    stroke-dasharray: 28;
+    stroke-dashoffset: 28;
+}
+@keyframes mCheckDraw {
+    to { stroke-dashoffset: 0; }
+}
+
+.modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+.modal-header .modal-subtitle {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 380px;
+    margin: 0 auto;
+    font-weight: 400;
+}
+.modal-header .modal-subtitle strong {
+    color: var(--navy);
+    font-weight: 600;
+}
+
+/* ── Reference number ────────────────────────────────── */
+.modal-ref-block {
+    margin: 0 36px;
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.modal-ref-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 5px;
+}
+.modal-ref-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+}
+.modal-ref-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 50px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.modal-ref-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: mPulse 1.5s ease-in-out infinite;
+}
+@keyframes mPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.75); }
+}
+
+/* ── Details grid ────────────────────────────────────── */
+.modal-body {
+    padding: 24px 36px 0;
+}
+.modal-section-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.modal-section-lbl::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.modal-item {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.modal-item:hover {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 2px 10px rgba(201,168,76,0.08);
+}
+.modal-item .il {
+    font-size: 10px;
+    color: var(--gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 4px;
+}
+.modal-item .iv {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+/* ── Timeline strip ──────────────────────────────────── */
+.modal-timeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0 0;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    overflow: hidden;
+}
+.mtl-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+.mtl-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+}
+.mtl-step.done:not(:last-child)::after {
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+.mtl-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mtl-step.done .mtl-dot {
+    background: var(--gold);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.2);
+}
+.mtl-step.active .mtl-dot {
+    background: var(--navy);
+    box-shadow: 0 0 0 4px rgba(13,27,42,0.15);
+    animation: mDotPulse 1.6s ease-in-out infinite;
+}
+.mtl-step:not(.done):not(.active) .mtl-dot {
+    background: var(--border);
+}
+@keyframes mDotPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(13,27,42,0.15); }
+    50%       { box-shadow: 0 0 0 8px rgba(13,27,42,0.06); }
+}
+.mtl-dot svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.mtl-step:not(.done):not(.active) .mtl-dot svg { stroke: #c4c9d4; }
+.mtl-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 0.03em;
+}
+.mtl-step.done .mtl-label,
+.mtl-step.active .mtl-label { color: var(--navy); }
+.mtl-step.active .mtl-label { font-weight: 700; }
+
+/* ── Info note ───────────────────────────────────────── */
+.modal-info-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 10px;
+    padding: 13px 16px;
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.6;
+}
+.modal-info-note svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    margin-top: 1px;
+}
+
+/* ── Footer actions ──────────────────────────────────── */
+.modal-footer {
+    padding: 24px 36px 32px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+}
+.mbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.22s;
+    white-space: nowrap;
+}
+.mbtn svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+}
+.mbtn.primary {
+    background: var(--navy);
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(13,27,42,0.22);
+}
+.mbtn.primary:hover {
+    background: var(--gold);
+    color: var(--navy);
+    box-shadow: 0 6px 20px rgba(201,168,76,0.35);
+    transform: translateY(-1px);
+}
+.mbtn.outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+}
+.mbtn.outline:hover {
+    border-color: var(--navy);
+    background: var(--light-gray);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 540px) {
+    .modal-box { border-radius: 18px; }
+    .modal-header, .modal-body, .modal-footer { padding-left: 20px; padding-right: 20px; }
+    .modal-ref-block { margin-left: 20px; margin-right: 20px; }
+    .modal-header h2 { font-size: 22px; }
+    .modal-grid { grid-template-columns: 1fr; }
+    .modal-footer { justify-content: stretch; }
+    .mbtn { flex: 1; justify-content: center; }
+    .modal-timeline { padding: 14px 12px; }
+    .mtl-label { font-size: 9px; }
+}
+
+/* ── END CSS BLOCK ───────────────────────────────────── */
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     ▸  PASTE THIS HTML BLOCK INTO services.html
+        Replace the old #confirmModal div.
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+        <!-- Gold accent bar -->
+        <div class="modal-topbar"></div>
+
+        <!-- Close -->
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <!-- Header -->
+        <div class="modal-header">
+            <div class="modal-success-ring">
+                <div class="modal-check-inner">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+            </div>
+            <h2 id="modal-title">Booking Confirmed!</h2>
+            <p class="modal-subtitle">
+                Your <strong id="modal-svc"></strong> request has been received.
+                Our team will call you within <strong>15 minutes</strong> to finalise all details.
+            </p>
+        </div>
+
+        <!-- Reference number -->
+        <div class="modal-ref-block">
+            <div class="modal-ref-left">
+                <div class="modal-ref-lbl">Booking Reference</div>
+                <div class="modal-ref-num" id="modal-ref-num">MYC-000000</div>
+            </div>
+            <div class="modal-ref-badge">Pending Confirmation</div>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+
+            <!-- Details grid -->
+            <div class="modal-section-lbl">Booking Details</div>
+            <div class="modal-grid" id="modal-grid">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Progress timeline -->
+            <div class="modal-timeline">
+                <div class="mtl-step done">
+                    <div class="mtl-dot">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="mtl-label">Submitted</div>
+                </div>
+                <div class="mtl-step active">
+                    <div class="mtl-dot">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <div class="mtl-label">Review</div>
+                </div>
+                <div class="mtl-step">
+                    <div class="mtl-dot">
+                        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 012 4.18 2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    </div>
+                    <div class="mtl-label">Team Calls</div>
+                </div>
+                <div class="mtl-step">
+                    <div class="mtl-dot">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="mtl-label">Confirmed</div>
+                </div>
+            </div>
+
+            <!-- Info note -->
+            <div class="modal-info-note">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Save your booking reference for tracking. A confirmation summary will be sent to your email address.
+            </div>
+
+        </div><!-- /modal-body -->
+
+        <!-- Footer actions -->
+        <div class="modal-footer">
+            <button class="mbtn outline" onclick="window.print()">
+                <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Print Receipt
+            </button>
+            <button class="mbtn primary" onclick="window.location.href='profile.html'">
+                View Profile
+                <svg viewBox="0 0 24 24"><path d="M14 11l3-3m0 0l3 3m-3-3v12"/></svg>
+            </button>
+            <button class="mbtn primary" onclick="closeModal()">
+                Done
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+        </div>
+
+    </div><!-- /modal-box -->
+</div><!-- /modal-overlay -->
+<!-- ── END HTML BLOCK ── -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ▸  PASTE THIS JS BLOCK INTO services.html
+        Replace the old submitBooking() and closeModal()
+        functions (lines ~756–799 in the original file).
+═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── Submit ─────────────────────────────────────────────────────────── */
+function submitBooking(e) {
+    e.preventDefault();
+    var svc   = document.getElementById("f_service").value;
+    var name  = document.getElementById("f_name").value.trim();
+    var phone = document.getElementById("f_phone").value.trim();
+    var email = document.getElementById("f_email").value.trim();
+    var city  = document.getElementById("f_city").value.trim();
+    if (!name || !phone || !email || !city) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    /* Reference number */
+    var ref = "MYC-" + (Math.floor(Math.random() * 900000) + 100000);
+    document.getElementById("modal-ref-num").textContent = ref;
+    document.getElementById("modal-svc").textContent     = svc;
+
+    /* Build detail tiles */
+    var tiles = [
+        { l: "Service", v: svc  },
+        { l: "Name",    v: name  },
+        { l: "Phone",   v: phone },
+        { l: "Email",   v: email },
+        { l: "City",    v: city  }
+    ];
+
+    (SVC[svc] || []).forEach(function(f) {
+        if (f.type === "area") return;
+        var el = document.getElementById(f.id);
+        if (!el || !el.value) return;
+        var v = el.value;
+        if (f.type === "date" && v) {
+            v = new Date(v).toLocaleDateString("en-IN", {
+                day: "2-digit", month: "short", year: "numeric"
+            });
+        }
+        tiles.push({ l: f.lbl, v: v });
+    });
+
+    document.getElementById("modal-grid").innerHTML = tiles.map(function(t) {
+        return '<div class="modal-item">'
+             +   '<div class="il">' + t.l + '</div>'
+             +   '<div class="iv">' + t.v + '</div>'
+             + '</div>';
+    }).join("");
+
+    /* Open modal */
+    var overlay = document.getElementById("confirmModal");
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    /* Close on backdrop click */
+    overlay.addEventListener("click", function onBdClick(ev) {
+        if (ev.target === overlay) {
+            closeModal();
+            overlay.removeEventListener("click", onBdClick);
+        }
+    });
+
+    /* Close on Escape key */
+    document.addEventListener("keydown", function onEsc(ev) {
+        if (ev.key === "Escape") {
+            closeModal();
+            document.removeEventListener("keydown", onEsc);
+        }
+    });
+}
+
+/* ── Close modal ─────────────────────────────────────────────────────── */
+function closeModal() {
+    var overlay = document.getElementById("confirmModal");
+    var box     = overlay.querySelector(".modal-box");
+
+    /* Fade-out animation */
+    box.style.animation = "mBoxOut 0.22s ease forwards";
+    overlay.style.animation = "mOverlayOut 0.25s ease forwards";
+
+    /* Define exit keyframes once */
+    if (!document.getElementById("_modalExitKF")) {
+        var s = document.createElement("style");
+        s.id = "_modalExitKF";
+        s.textContent =
+            "@keyframes mBoxOut { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.92) translateY(12px); } }" +
+            "@keyframes mOverlayOut { from { opacity:1; } to { opacity:0; } }";
+        document.head.appendChild(s);
+    }
+
+    setTimeout(function() {
+        overlay.classList.remove("active");
+        overlay.style.animation = "";
+        box.style.animation = "";
+        document.body.style.overflow = "";
+        var form = document.getElementById("bookingForm");
+        if (form) form.reset();
+    }, 250);
+}
+/* ── END JS BLOCK ── */
+
+
+/* ════════════════════════════════════════════════
+   PREVIEW ONLY — triggers the modal automatically
+   when loaded standalone. Remove from services.html.
+════════════════════════════════════════════════ */
+window.SVC = {
+    "Long-Term Leasing": [
+        { id:"f_dur", lbl:"Lease Duration",     type:"select", opts:["3 Months"] },
+        { id:"f_veh", lbl:"Vehicle Preference", type:"select", opts:["Premium Sedan"] },
+        { id:"f_dt1", lbl:"Start Date",         type:"date" }
+    ]
+};
+window.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("modal-ref-num").textContent = "MYC-" + (Math.floor(Math.random() * 900000) + 100000);
+    document.getElementById("modal-svc").textContent = "Long-Term Leasing";
+    document.getElementById("modal-grid").innerHTML = [
+        { l:"Service",          v:"Long-Term Leasing"  },
+        { l:"Name",             v:"Arjun Mehta"        },
+        { l:"Phone",            v:"+91 98765 43210"    },
+        { l:"Email",            v:"arjun@example.com"  },
+        { l:"City",             v:"Bangalore"          },
+        { l:"Lease Duration",   v:"3 Months"           },
+        { l:"Vehicle Preference", v:"Premium Sedan"    },
+        { l:"Start Date",       v:"01 Jul 2025"        }
+    ].map(function(t) {
+        return '<div class="modal-item"><div class="il">' + t.l + '</div><div class="iv">' + t.v + '</div></div>';
+    }).join("");
+    document.getElementById("confirmModal").classList.add("active");
+});
+</script>
+</body>
+</html>

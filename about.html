@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — MyChoize</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b2a'/%3E%3Cpath fill='%23c9a84c' d='M25.23 11.68C24.96 10.85 24.21 10.28 23.33 10.28H8.67c-.88 0-1.62.57-1.9 1.4L4 19.5v6c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V24h16v1.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5v-6l-2.77-7.82zM9.5 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm13 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 17.5l2-6h14l2 6H7z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy-mid: #1a2e45;
+            --gold: #c9a84c;
+            --gold-light: #e8c97e;
+            --cream: #f8f4ef;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --light-gray: #f1f0ee;
+            --border: #e5e7eb;
+            --text: #1a1a2e;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+
+
+
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            position: relative;
+            background: var(--navy);
+            padding: 100px 60px 80px;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400') center/cover no-repeat;
+            opacity: 0.12;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute; bottom: -100px; right: -100px;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            position: relative; z-index: 2;
+            max-width: 680px;
+            animation: fadeUp 0.8s ease both;
+        }
+        .page-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(201,168,76,0.15);
+            border: 1px solid rgba(201,168,76,0.35);
+            color: var(--gold-light);
+            padding: 6px 14px; border-radius: 50px;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .page-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; display: inline-block; }
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 900; color: var(--white);
+            line-height: 1.08; margin-bottom: 20px;
+        }
+        .page-hero h1 em { color: var(--gold); font-style: normal; }
+        .page-hero p {
+            font-size: 17px; color: rgba(255,255,255,0.65);
+            line-height: 1.8; font-weight: 300; max-width: 560px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: relative; z-index: 2;
+            display: flex; align-items: center; gap: 8px;
+            margin-top: 40px;
+            font-size: 13px; color: rgba(255,255,255,0.4);
+        }
+        .breadcrumb a { color: rgba(255,255,255,0.4); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb .sep { color: rgba(255,255,255,0.2); }
+        .breadcrumb .current { color: var(--gold); }
+
+        /* ── SECTION COMMONS ── */
+        .section-label {
+            font-size: 11px; font-weight: 600;
+            color: var(--gold); letter-spacing: 0.12em;
+            text-transform: uppercase; margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 3.5vw, 42px);
+            font-weight: 700; color: var(--navy); line-height: 1.15;
+        }
+        .section-title span { color: var(--gold); }
+
+        /* ── STORY SECTION ── */
+        .story-section {
+            padding: 100px 60px;
+            background: var(--white);
+        }
+        .story-inner {
+            display: flex; gap: 80px; align-items: center;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .story-text { flex: 1; }
+        .story-text .section-title { margin-bottom: 20px; }
+        .story-text p {
+            font-size: 16px; color: var(--gray);
+            line-height: 1.85; margin-bottom: 20px; font-weight: 300;
+        }
+        .story-text p strong { color: var(--navy); font-weight: 600; }
+
+        .story-image { flex: 1; position: relative; }
+        .story-image img {
+            width: 100%; border-radius: 20px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+        }
+        /* Floating stat card */
+        .stat-float {
+            position: absolute;
+            bottom: -24px; left: -28px;
+            background: var(--navy);
+            border-radius: 16px;
+            padding: 20px 28px;
+            box-shadow: 0 16px 40px rgba(13,27,42,0.25);
+        }
+        .stat-float-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px; font-weight: 700; color: var(--gold);
+        }
+        .stat-float-label {
+            font-size: 12px; color: rgba(255,255,255,0.55);
+            text-transform: uppercase; letter-spacing: 0.07em;
+            margin-top: 2px;
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--navy);
+            padding: 56px 60px;
+            display: flex; justify-content: center;
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0; max-width: 900px; width: 100%;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 0 32px;
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px; font-weight: 700; color: var(--gold);
+        }
+        .stat-label {
+            font-size: 12px; color: rgba(255,255,255,0.45);
+            text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px;
+        }
+
+        /* ── VALUES SECTION ── */
+        .values-section {
+            padding: 100px 60px;
+            background: var(--cream);
+        }
+        .values-header { text-align: center; margin-bottom: 60px; }
+        .values-header .section-label, .values-header .section-title { display: block; }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 28px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .value-card {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 36px 32px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--gold);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.35s;
+        }
+        .value-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.1); }
+        .value-card:hover::before { transform: scaleY(1); }
+        .value-icon {
+            width: 52px; height: 52px;
+            background: rgba(201,168,76,0.12);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; margin-bottom: 20px;
+        }
+        .value-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px; font-weight: 700;
+            color: var(--navy); margin-bottom: 10px;
+        }
+        .value-card p { font-size: 14px; color: var(--gray); line-height: 1.75; }
+
+        /* ── APPROACH SECTION ── */
+        .approach-section {
+            padding: 100px 60px;
+            background: var(--white);
+        }
+        .approach-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; gap: 80px; align-items: center;
+        }
+        .approach-image { flex: 1; position: relative; }
+        .approach-image img {
+            width: 100%; border-radius: 20px;
+            box-shadow: 0 20px 56px rgba(0,0,0,0.11);
+        }
+        .approach-badge {
+            position: absolute; top: -20px; right: -20px;
+            background: var(--gold);
+            color: var(--navy); border-radius: 50%;
+            width: 100px; height: 100px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+        }
+        .approach-badge .yr { font-size: 28px; font-weight: 700; line-height: 1; }
+        .approach-badge .yr-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+
+        .approach-text { flex: 1; }
+        .approach-text .section-title { margin-bottom: 20px; }
+
+        .steps { display: flex; flex-direction: column; gap: 24px; margin-top: 32px; }
+        .step { display: flex; gap: 18px; align-items: flex-start; }
+        .step-num {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: var(--navy); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px; font-weight: 700; color: var(--gold);
+        }
+        .step h4 { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+        .step p { font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+        /* ── WHY US SECTION ── */
+        .whyus-section {
+            padding: 100px 60px;
+            background: var(--navy);
+            position: relative; overflow: hidden;
+        }
+        .whyus-section::before {
+            content: '';
+            position: absolute; top: -100px; right: -100px;
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .whyus-inner {
+            max-width: 1200px; margin: 0 auto;
+            position: relative; z-index: 2;
+        }
+        .whyus-header { margin-bottom: 56px; }
+        .whyus-header .section-label { color: var(--gold); }
+        .whyus-header .section-title { color: var(--white); }
+        .whyus-header .section-title span { color: var(--gold); }
+
+        .whyus-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+        }
+        .why-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px; padding: 32px;
+            transition: all 0.3s;
+        }
+        .why-card:hover {
+            background: rgba(255,255,255,0.09);
+            border-color: rgba(201,168,76,0.3);
+            transform: translateY(-4px);
+        }
+        .why-icon { font-size: 28px; margin-bottom: 16px; }
+        .why-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 10px;
+        }
+        .why-card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.75; }
+
+        /* ── TEAM SECTION ── */
+        .team-section {
+            padding: 100px 60px;
+            background: var(--cream);
+            text-align: center;
+        }
+        .team-section .section-label, .team-section .section-title { display: block; margin-bottom: 10px; }
+        .team-section .section-title { margin-bottom: 56px; }
+        .team-grid {
+            display: flex; justify-content: center; gap: 32px;
+            flex-wrap: wrap; max-width: 1000px; margin: 0 auto;
+        }
+        .team-card {
+            background: var(--white);
+            border-radius: 18px; padding: 36px 28px;
+            width: 220px; text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .team-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+        .team-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: var(--navy); margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 26px; font-weight: 700; color: var(--gold);
+        }
+        .team-card h4 { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+        .team-card p { font-size: 13px; color: var(--gold); font-weight: 500; }
+
+        /* ── CTA SECTION ── */
+        .cta-section {
+            padding: 100px 60px;
+            background: var(--white);
+            text-align: center;
+        }
+        .cta-inner { max-width: 640px; margin: 0 auto; }
+        .cta-inner .section-label { margin-bottom: 12px; }
+        .cta-inner .section-title { margin-bottom: 18px; }
+        .cta-inner p { color: var(--gray); font-size: 16px; line-height: 1.8; margin-bottom: 40px; }
+        .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            padding: 14px 36px;
+            background: var(--navy); color: var(--white);
+            border: none; border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .btn-primary:hover { background: var(--gold); color: var(--navy); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+        .btn-outline {
+            padding: 14px 36px;
+            background: transparent; color: var(--navy);
+            border: 1.5px solid var(--navy);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.55);
+            padding: 60px 60px 32px;
+        }
+        .footer-top { display: flex; gap: 60px; margin-bottom: 48px; flex-wrap: wrap; }
+        .footer-brand { flex: 2; min-width: 220px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .footer-logo        .footer-brand p { font-size: 14px; line-height: 1.75; max-width: 260px; }
+        .footer-col { flex: 1; min-width: 130px; }
+        .footer-col h5 { font-size: 12px; font-weight: 600; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; flex-wrap: wrap; gap: 12px;
+        }
+        .footer-bottom a { color: rgba(255,255,255,0.35); text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: var(--gold); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .story-inner, .approach-inner { flex-direction: column; }
+            .whyus-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .topbar, .navbar, .page-hero,
+            .story-section, .values-section, .approach-section,
+            .whyus-section, .team-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .stat-item { border-right: none; }
+            .whyus-grid { grid-template-columns: 1fr; }
+            .topbar { display: none; }
+            .footer-top { flex-direction: column; }
+        }
+    
+        /* ── NAVBAR ── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+            transition: box-shadow 0.35s ease, background 0.35s ease;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 8px 32px rgba(13,27,42,0.1);
+            background: rgba(255,255,255,0.99);
+        }
+        .logo {
+            display: flex; align-items: center; gap: 11px;
+            text-decoration: none; flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--navy);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon { transform: rotate(-6deg) scale(1.06); }
+        .logo-icon::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+        }
+        .logo-icon svg { width: 22px; height: 22px; fill: var(--gold); position: relative; z-index: 1; }
+        .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 700;
+            color: var(--navy); letter-spacing: -0.01em;
+        }
+        .logo-text span { color: var(--gold); }
+        .logo-tagline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px; font-weight: 500;
+            color: rgba(55,65,81,0.7);
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex; align-items: center;
+            gap: 2px; list-style: none;
+        }
+        .nav-links a {
+            position: relative;
+            padding: 7px 15px;
+            color: #374151; text-decoration: none;
+            font-size: 13.5px; font-weight: 500;
+            border-radius: 7px;
+            transition: color 0.2s, background 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: 2px; left: 15px; right: 15px;
+            height: 2px; background: var(--gold); border-radius: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav-links a:hover { color: var(--navy); background: rgba(13,27,42,0.04); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--navy); font-weight: 600; background: rgba(201,168,76,0.1); }
+        .nav-links a.active::after { transform: scaleX(1); }
+        .nav-divider {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #d1d5db; margin: 0 4px; flex-shrink: 0;
+        }
+        .nav-cta {
+            display: inline-flex !important; align-items: center; gap: 7px;
+            padding: 9px 20px !important;
+            background: var(--navy) !important; color: var(--white) !important;
+            border-radius: 8px !important;
+            font-size: 13.5px !important; font-weight: 600 !important;
+            letter-spacing: 0.02em;
+            transition: all 0.25s ease !important;
+            box-shadow: 0 2px 8px rgba(13,27,42,0.2);
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--gold) !important; color: var(--navy) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(201,168,76,0.38) !important;
+        }
+        .nav-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+            color: rgba(55,65,81,0.8);
+            background: rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+        .nav-avatar:hover { transform: translateY(-1px); background: rgba(0,0,0,0.1); }
+        .nav-avatar.logged-in { background: var(--gold); color: var(--navy); border-color: rgba(201,168,76,0.5); }
+        .nav-avatar.logged-in:hover { background: var(--gold-light); }
+        /* Auth prompt modal */
+        .auth-prompt-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(13,27,42,0.75);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .auth-prompt-overlay.open { display: flex !important; }
+        .auth-prompt {
+            max-width: 420px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 18px;
+            padding: 28px 26px 22px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+            position: relative;
+            text-align: center;
+        }
+        .auth-prompt h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--navy);
+        }
+        .auth-prompt p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        .auth-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .auth-actions a {
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 110px;
+        }
+        .auth-actions a:first-child { background: var(--navy); color: var(--white); }
+        .auth-actions a:last-child { background: rgba(201,168,76,0.16); color: var(--navy); }
+        .auth-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 0;
+            color: var(--navy);
+        }
+        .auth-close:hover { background: rgba(0,0,0,0.12); }
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; border-radius: 7px;
+            border: none; background: none; transition: background 0.2s;
+        }
+        .nav-hamburger:hover { background: rgba(0,0,0,0.06); }
+        .nav-hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--navy); border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .nav-mobile {
+            display: none; position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(255,255,255,0.98);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+            z-index: 1100; padding: 16px 20px 24px;
+            flex-direction: column; gap: 4px;
+            animation: slideDown 0.25s ease both;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .nav-mobile.open { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-mobile a {
+            padding: 11px 16px; color: #374151;
+            text-decoration: none; font-size: 15px; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s; display: block;
+        }
+        .nav-mobile a:hover { background: rgba(13,27,42,0.05); color: var(--navy); }
+        .nav-mobile a.active { background: rgba(201,168,76,0.12); color: var(--navy); font-weight: 600; }
+        .nav-mobile .nav-cta { margin-top: 8px; text-align: center; display: block !important; padding: 12px 20px !important; }
+        .nav-mobile-divider { height: 1px; background: #f3f4f6; margin: 8px 0; }
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+        </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+        <div class="logo-wordmark">
+            <span class="logo-text">My<span>Choize</span></span>
+            <span class="logo-tagline">Premium Car Rentals</span>
+        </div>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+        <div class="nav-avatar" id="navAvatar" title="Profile">👤</div>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html">Profile</a>
+    <div class="nav-mobile-divider"></div>
+    <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="hero-inner">
+        <div class="page-badge"><span></span> Our Story</div>
+        <h1>Driving India<br>Forward, <em>Together</em></h1>
+        <p>From a small fleet to one of India's most trusted rental platforms — MyChoize was built on a simple belief: every journey deserves a perfect vehicle.</p>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="sep">›</span>
+            <span class="current">About Us</span>
+        </div>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-num">10K+</div>
+            <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">50+</div>
+            <div class="stat-label">Premium Vehicles</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">25+</div>
+            <div class="stat-label">Cities Served</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Years of Service</div>
+        </div>
+    </div>
+</div>
+
+<!-- STORY SECTION -->
+<section class="story-section">
+    <div class="story-inner">
+        <div class="story-text">
+            <div class="section-label">Who We Are</div>
+            <h2 class="section-title">Your Trusted<br><span>Rental Partner</span></h2>
+            <p>Welcome to <strong>MyChoize</strong> — India's premier car rental service. We provide a wide selection of vehicles to suit every need, whether you're travelling for business, embarking on an adventure, or simply exploring your city.</p>
+            <p>Founded with the vision of making car rentals effortless and accessible, we've grown from a small local fleet into a nationwide platform serving thousands of happy drivers every month. Our commitment has always been the same: <strong>reliable cars, seamless booking, and genuine care for every customer.</strong></p>
+            <p>We believe mobility is freedom — and we're here to make sure nothing stands between you and your next great journey.</p>
+        </div>
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700" alt="Premium Car">
+            <div class="stat-float">
+                <div class="stat-float-num">4.9★</div>
+                <div class="stat-float-label">Average Rating</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CORE VALUES -->
+<section class="values-section">
+    <div class="values-header">
+        <span class="section-label">What We Stand For</span>
+        <h2 class="section-title">Our <span>Core Values</span></h2>
+    </div>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <h3>Integrity</h3>
+            <p>We operate with full transparency — no hidden fees, no surprises. What you see is exactly what you get, from pricing to vehicle condition.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">🔧</div>
+            <h3>Quality</h3>
+            <p>Every vehicle in our fleet undergoes rigorous multi-point checks before every rental to ensure your safety, comfort, and confidence on the road.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">❤️</div>
+            <h3>Customer Focus</h3>
+            <p>Your experience is the heartbeat of everything we do. From instant booking to 24/7 support, we've built every process around making your life easier.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">💡</div>
+            <h3>Innovation</h3>
+            <p>We continuously invest in technology — smarter booking flows, real-time vehicle tracking, and seamless digital experiences to stay ahead of your needs.</p>
+        </div>
+    </div>
+</section>
+
+<!-- OUR APPROACH -->
+<section class="approach-section">
+    <div class="approach-inner">
+        <div class="approach-image">
+            <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=700" alt="Our Approach">
+            <div class="approach-badge">
+                <span class="yr">6+</span>
+                <span class="yr-label">Years</span>
+            </div>
+        </div>
+        <div class="approach-text">
+            <div class="section-label">How We Work</div>
+            <h2 class="section-title">Our <span>Approach</span></h2>
+            <p style="font-size:15px;color:var(--gray);line-height:1.8;margin-top:14px;">We focus on simplicity, reliability, and putting you first — at every single step of your rental journey.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h4>Browse & Select</h4>
+                        <p>Explore our curated fleet with transparent pricing, detailed specs, and real photos. Filter by type, budget, or city.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h4>Book in Minutes</h4>
+                        <p>Our streamlined booking system lets you reserve any car in under 2 minutes. Instant confirmation, zero paperwork.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h4>Drive with Confidence</h4>
+                        <p>Your vehicle is delivered clean, insured, and ready to go. 24/7 support and roadside assistance ensure peace of mind throughout your trip.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="whyus-section">
+    <div class="whyus-inner">
+        <div class="whyus-header">
+            <div class="section-label">The MyChoize Difference</div>
+            <h2 class="section-title">Why <span>Choose Us?</span></h2>
+        </div>
+        <div class="whyus-grid">
+            <div class="why-card">
+                <div class="why-icon">💰</div>
+                <h4>Competitive Pricing</h4>
+                <p>Best-in-market rates from ₹1,500/day with no hidden charges. Flexible plans for hourly, daily, and monthly rentals.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🚗</div>
+                <h4>Diverse Fleet</h4>
+                <p>From compact hatchbacks to luxury SUVs and off-road 4x4s — 50+ vehicles to match every journey and budget.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🕐</div>
+                <h4>24/7 Support</h4>
+                <p>Round-the-clock customer care and roadside assistance. Wherever you are, help is always just one call away.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">📍</div>
+                <h4>25+ Cities</h4>
+                <p>Wide pickup and drop-off network across India's major cities and airports. Convenient locations everywhere you travel.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🛡️</div>
+                <h4>Full Insurance</h4>
+                <p>Every rental comes with comprehensive insurance and safety coverage so you can focus on the journey, not the what-ifs.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">⚡</div>
+                <h4>Instant Booking</h4>
+                <p>Reserve any car in under 2 minutes. Modify or cancel with ease. No long forms, no waiting — just seamless mobility.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM SECTION -->
+<section class="team-section">
+    <span class="section-label">The People Behind It</span>
+    <h2 class="section-title">Meet Our <span>Leadership</span></h2>
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="team-avatar">A</div>
+            <h4>Arjun Mehta</h4>
+            <p>Founder & CEO</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">P</div>
+            <h4>Priya Sharma</h4>
+            <p>Head of Operations</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">R</div>
+            <h4>Rohan Nair</h4>
+            <p>Chief Technology Officer</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">S</div>
+            <h4>Sneha Iyer</h4>
+            <p>Customer Experience Lead</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <div class="section-label">Ready to Roll?</div>
+        <h2 class="section-title">Start Your Journey<br><span>with MyChoize</span></h2>
+        <p>Join over 10,000 happy drivers who trust MyChoize for every trip. Browse our fleet, book instantly, and drive with complete confidence.</p>
+        <div class="cta-buttons">
+            <a href="index.html#fleet" class="btn-primary">Explore Our Fleet</a>
+            <a href="contact.html" class="btn-outline">Get in Touch</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width:36px;height:36px">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#c9a84c"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                </div>
+                <span class="logo-text">My<span style="color:var(--gold)">Choize</span></span>
+            </div>
+            <p>Premium car rentals across India. Comfort, safety, and freedom — delivered to your door.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Quick Links</h5>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h5>Fleet</h5>
+            <a href="#">Sedans</a>
+            <a href="#">SUVs</a>
+            <a href="#">Hatchbacks</a>
+            <a href="#">Luxury Cars</a>
+            <a href="#">Electric</a>
+        </div>
+        <div class="footer-col">
+            <h5>Contact</h5>
+            <a href="tel:+91 91823 52345">+91 91823 52345</a>
+            <a href="mailto:info@mychoize.com">info@mychoize.com</a>
+            <a href="#">Find a Location</a>
+            <a href="#">24/7 Support</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 MyChoize. All rights reserved.</span>
+        <div>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Sitemap</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ── NAVBAR: scroll shadow + hamburger toggle ──
+(function() {
+    var nb  = document.getElementById('navbar');
+    var ham = document.getElementById('navHamburger');
+    var mob = document.getElementById('navMobile');
+    if (nb) {
+        window.addEventListener('scroll', function() {
+            nb.classList.toggle('scrolled', window.scrollY > 20);
+        });
+    }
+    if (ham && mob) {
+        ham.addEventListener('click', function() {
+            ham.classList.toggle('open');
+            mob.classList.toggle('open');
+        });
+        mob.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', function() {
+                ham.classList.remove('open');
+                mob.classList.remove('open');
+            });
+        });
+    }
+})();
+</script>
+
+<script>
+    function isLoggedIn() {
+        const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
+        const local = localStorage.getItem('mychoize_logged_in') === 'true' &&
+                      localStorage.getItem('mychoize_remember') === 'true';
+        return session || local;
+    }
+
+    function getUserValue(key) {
+        return sessionStorage.getItem(key) ?? localStorage.getItem(key) ?? '';
+    }
+
+    function signOut() {
+        ['mychoize_logged_in', 'mychoize_user_email', 'mychoize_user_name', 'mychoize_user_created', 'mychoize_user', 'mychoize_remember'].forEach(k => {
+            localStorage.removeItem(k);
+            sessionStorage.removeItem(k);
+        });
+        window.location.href = 'index.html';
+    }
+
+    function getUserInitial() {
+        const name = (getUserValue('mychoize_user_name') || '').trim();
+        const email = (getUserValue('mychoize_user_email') || '').trim();
+        const base = name || (email.split('@')[0] || '');
+        return base ? base.trim()[0].toUpperCase() : '';
+    }
+
+    function updateProfileAvatar() {
+        const avatar = document.getElementById('navAvatar');
+        if (!avatar) return;
+        const loggedIn = isLoggedIn();
+        const initial = getUserInitial() || '👤';
+        avatar.textContent = loggedIn ? initial : '👤';
+        avatar.classList.toggle('logged-in', loggedIn);
+        avatar.title = loggedIn ? (getUserValue('mychoize_user_name') || getUserValue('mychoize_user_email') || 'Profile') : 'Profile';
+        avatar.onclick = () => window.location.href = 'profile.html';
+    }
+
+    function updateAuthLinks() {
+        var loggedIn = isLoggedIn();
+        document.querySelectorAll('[data-auth="toggle"]').forEach(function(el){
+            if (loggedIn) {
+                el.textContent = 'Sign Out';
+                el.href = '#';
+                el.onclick = function(e){ e.preventDefault(); signOut(); };
+            } else {
+                el.textContent = 'Sign In';
+                el.href = 'login.html';
+                el.onclick = null;
+            }
+        });
+        updateProfileAvatar();
+    }
+
+    document.addEventListener('DOMContentLoaded', updateAuthLinks);
+    updateAuthLinks();
+</script>
+</body>
+</html>

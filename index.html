@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyChoize — Premium Car Rentals</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b2a'/%3E%3Cpath fill='%23c9a84c' d='M25.23 11.68C24.96 10.85 24.21 10.28 23.33 10.28H8.67c-.88 0-1.62.57-1.9 1.4L4 19.5v6c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V24h16v1.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5v-6l-2.77-7.82zM9.5 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm13 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 17.5l2-6h14l2 6H7z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy-mid: #1a2e45;
+            --gold: #c9a84c;
+            --gold-light: #e8c97e;
+            --cream: #f8f4ef;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --light-gray: #f1f0ee;
+            --red: #c0392b;
+            --text: #1a1a2e;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ─── TOPBAR (removed) ───────────────────── */
+
+        /* ─── NAVBAR ─────────────────────────────── */
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+            transition: box-shadow 0.35s ease, background 0.35s ease;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 8px 32px rgba(13,27,42,0.1);
+            background: rgba(255,255,255,0.99);
+        }
+        .logo {
+            display: flex; align-items: center; gap: 11px;
+            text-decoration: none; flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--navy);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon { transform: rotate(-6deg) scale(1.06); }
+        .logo-icon::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+        }
+        .logo-icon svg { width: 22px; height: 22px; fill: var(--gold); position: relative; z-index: 1; }
+        .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 700;
+            color: var(--navy); letter-spacing: -0.01em;
+        }
+        .logo-text span { color: var(--gold); }
+        .logo-tagline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px; font-weight: 500;
+            color: rgba(55,65,81,0.7);
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex; align-items: center;
+            gap: 2px; list-style: none;
+        }
+        .nav-links a {
+            position: relative;
+            padding: 7px 15px;
+            color: #374151; text-decoration: none;
+            font-size: 13.5px; font-weight: 500;
+            border-radius: 7px;
+            transition: color 0.2s, background 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: 2px; left: 15px; right: 15px;
+            height: 2px; background: var(--gold); border-radius: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav-links a:hover { color: var(--navy); background: rgba(13,27,42,0.04); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--navy); font-weight: 600; background: rgba(201,168,76,0.1); }
+        .nav-links a.active::after { transform: scaleX(1); }
+        .nav-divider {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #d1d5db; margin: 0 4px; flex-shrink: 0;
+        }
+        .nav-cta {
+            display: inline-flex !important; align-items: center; gap: 7px;
+            padding: 9px 20px !important;
+            background: var(--navy) !important; color: var(--white) !important;
+            border-radius: 8px !important;
+            font-size: 13.5px !important; font-weight: 600 !important;
+            letter-spacing: 0.02em;
+            transition: all 0.25s ease !important;
+            box-shadow: 0 2px 8px rgba(13,27,42,0.2);
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--gold) !important; color: var(--navy) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(201,168,76,0.38) !important;
+        }
+        .nav-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+            color: rgba(55,65,81,0.8);
+            background: rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+        .nav-avatar:hover { transform: translateY(-1px); background: rgba(0,0,0,0.1); }
+        .nav-avatar.logged-in { background: var(--gold); color: var(--navy); border-color: rgba(201,168,76,0.5); }
+        .nav-avatar.logged-in:hover { background: var(--gold-light); }
+        /* Auth prompt modal */
+        .auth-prompt-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(13,27,42,0.72);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .auth-prompt-overlay.open { display: flex !important; }
+        .auth-prompt {
+            max-width: 440px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 18px;
+            padding: 30px 26px 24px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.26);
+            position: relative;
+            text-align: center;
+        }
+        .auth-prompt-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .auth-prompt-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(201,168,76,0.16);
+            font-size: 28px;
+        }
+        .auth-prompt h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin: 0;
+            color: var(--navy);
+        }
+        .auth-prompt p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+            line-height: 1.55;
+        }
+        .auth-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .auth-actions .btn {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .auth-actions .btn:hover { transform: translateY(-1px); }
+        .auth-actions .btn-primary {
+            background: var(--navy);
+            color: var(--white);
+            box-shadow: 0 10px 20px rgba(13,27,42,0.18);
+        }
+        .auth-actions .btn-primary:hover { box-shadow: 0 12px 26px rgba(13,27,42,0.22); }
+        .auth-actions .btn-secondary {
+            background: rgba(201,168,76,0.18);
+            color: var(--navy);
+            box-shadow: 0 10px 20px rgba(201,168,76,0.18);
+        }
+        .auth-actions .btn-secondary:hover { box-shadow: 0 12px 26px rgba(201,168,76,0.24); }
+        .auth-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 0;
+            color: var(--navy);
+        }
+        .auth-close:hover { background: rgba(0,0,0,0.12); }
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; border-radius: 7px;
+            border: none; background: none; transition: background 0.2s;
+        }
+        .nav-hamburger:hover { background: rgba(0,0,0,0.06); }
+        .nav-hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--navy); border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .nav-mobile {
+            display: none; position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+            z-index: 999; padding: 16px 20px 24px;
+            flex-direction: column; gap: 4px;
+            animation: slideDown 0.25s ease both;
+        }
+        .nav-mobile.open { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-mobile a {
+            padding: 11px 16px; color: #374151;
+            text-decoration: none; font-size: 15px; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s; display: block;
+        }
+        .nav-mobile a:hover { background: rgba(13,27,42,0.05); color: var(--navy); }
+        .nav-mobile a.active { background: rgba(201,168,76,0.12); color: var(--navy); font-weight: 600; }
+        .nav-mobile .nav-cta { margin-top: 8px; text-align: center; display: block !important; padding: 12px 20px !important; }
+        .nav-mobile-divider { height: 1px; background: #f3f4f6; margin: 8px 0; }
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+
+            .nav-links.mobile-open {
+                display: flex;
+                position: fixed;
+                top: 68px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(255,255,255,0.98);
+                padding: 16px 20px 24px;
+                gap: 8px;
+                z-index: 1100;
+                box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+                backdrop-filter: blur(10px);
+            }
+            .nav-links.mobile-open a { display: block; }
+        }
+
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        .hero-slider { position: absolute; inset: 0; }
+        .slide {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center;
+            opacity: 0;
+            animation: fade 15s infinite;
+            transition: opacity 1s;
+        }
+        .slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80'); animation-delay: 0s; }
+        .slide:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1600&q=80'); animation-delay: 5s; }
+        .slide:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1600&q=80'); animation-delay: 10s; }
+
+        @keyframes fade {
+            0%, 5% { opacity: 0; }
+            10%, 30% { opacity: 1; }
+            35%, 100% { opacity: 0; }
+        }
+
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(120deg, rgba(13,27,42,0.85) 0%, rgba(13,27,42,0.4) 60%, transparent 100%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            height: 100%;
+            display: flex; align-items: center;
+            padding: 0 60px;
+        }
+
+        .hero-text { max-width: 580px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(201,168,76,0.2);
+            border: 1px solid rgba(201,168,76,0.4);
+            color: var(--gold-light);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s ease both;
+        }
+        .hero-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; display: inline-block; }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 6vw, 72px);
+            font-weight: 900;
+            color: var(--white);
+            line-height: 1.08;
+            margin-bottom: 20px;
+            animation: fadeUp 0.8s 0.15s ease both;
+        }
+        .hero-text h1 em { color: var(--gold); font-style: normal; }
+
+        .hero-text p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            font-weight: 300;
+            animation: fadeUp 0.8s 0.3s ease both;
+        }
+
+        .hero-buttons {
+            display: flex; gap: 14px;
+            animation: fadeUp 0.8s 0.45s ease both;
+        }
+        .btn-primary {
+            padding: 14px 32px;
+            background: var(--gold);
+            color: var(--navy);
+            border: none; border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+        .btn-outline {
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.5);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+
+        .hero-stats {
+            position: absolute;
+            bottom: 48px; left: 60px; z-index: 2;
+            display: flex; gap: 48px;
+            animation: fadeUp 0.8s 0.6s ease both;
+        }
+        .stat { color: var(--white); }
+        .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--gold); }
+        .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── QUICK SEARCH BAR ───────────────────── */
+        .search-bar-wrap {
+            display: flex; justify-content: center;
+            position: relative; z-index: 10;
+            margin-top: -44px;
+            padding: 0 40px;
+        }
+        .search-bar {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 28px 32px;
+            display: flex; gap: 16px; align-items: flex-end;
+            width: 100%; max-width: 960px;
+            flex-wrap: wrap;
+        }
+        .search-field { flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 6px; }
+        .search-field label { font-size: 11px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; }
+        .search-field input, .search-field select {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+        }
+        .search-field input:focus, .search-field select:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(13,27,42,0.07);
+            background: var(--white);
+        }
+        .search-divider { width: 1px; height: 52px; background: #e5e7eb; align-self: flex-end; }
+        .search-btn {
+            padding: 12px 28px;
+            background: var(--navy);
+            color: var(--white);
+            border: none; border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .search-btn:hover { background: var(--gold); color: var(--navy); }
+        .search-btn svg { width: 16px; height: 16px; }
+
+        /* ─── SECTION COMMONS ────────────────────── */
+        .section-label {
+            font-size: 11px; font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.15;
+        }
+        .section-title span { color: var(--gold); }
+
+        .car-card {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .car-card.hidden {
+            display: none !important;
+        }
+
+        /* ─── SELECTED CAR FIELD IN BOOKING ────────── */
+        #selectedCarGroup {
+            animation: fadeDown 0.35s ease;
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        #selectedCarGroup label {
+            color: var(--gold) !important;
+            letter-spacing: 0.07em;
+        }
+        #selectedCarInput {
+            background: rgba(201,168,76,0.12) !important;
+            border: 1.5px solid var(--gold) !important;
+            color: var(--gold-light) !important;
+            font-weight: 600 !important;
+            cursor: default !important;
+            font-size: 15px !important;
+        }
+
+        /* ─── CAR FLEET ──────────────────────────── */
+        .fleet-section {
+            padding: 100px 60px;
+            background: var(--cream);
+            overflow: hidden;
+        }
+        .fleet-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 50px;
+        }
+        .fleet-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 8px 18px;
+            border: 1.5px solid #ddd;
+            background: transparent;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 500;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        .cars-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 28px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .cars-grid::-webkit-scrollbar { height: 6px; }
+        .cars-grid::-webkit-scrollbar-track { background: #e5e7eb; border-radius: 4px; }
+        .cars-grid::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 4px; }
+        .cars-grid .car-card {
+            min-width: 300px;
+            max-width: 300px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .car-card {
+            background: var(--white);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .car-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+
+        .car-img-wrap {
+            position: relative;
+            height: 200px;
+            background: var(--light-gray);
+            overflow: hidden;
+        }
+        .car-img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .car-card:hover .car-img-wrap img { transform: scale(1.06); }
+        .car-type-badge {
+            position: absolute; top: 14px; left: 14px;
+            background: rgba(13,27,42,0.8);
+            color: var(--white);
+            font-size: 11px; font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 50px;
+            letter-spacing: 0.04em;
+        }
+        .car-fav {
+            position: absolute; top: 14px; right: 14px;
+            width: 32px; height: 32px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 14px;
+        }
+        .car-fav:hover { background: var(--white); transform: scale(1.1); }
+
+        .car-body { padding: 20px; }
+        .car-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .car-specs { display: flex; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+        .car-spec {
+            font-size: 12px; color: var(--gray);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .car-spec svg { width: 13px; height: 13px; }
+
+        .car-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--light-gray);
+        }
+        .car-price-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+        .car-price-unit { font-size: 12px; color: var(--gray); }
+        .car-book-btn {
+            padding: 9px 20px;
+            background: var(--navy);
+            color: var(--white);
+            border: none; border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .car-book-btn:hover { background: var(--gold); color: var(--navy); }
+
+        /* ─── GALLERY + BOOKING ──────────────────── */
+        .gallery-booking {
+            padding: 100px 60px;
+            background: var(--white);
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        /* Gallery */
+        .gallery-side { flex: 1; max-width: 620px; }
+        .gallery-side h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+        .gallery-side p { color: var(--gray); font-size: 15px; margin-bottom: 28px; line-height: 1.6; }
+
+        .main-img-wrap {
+            position: relative;
+            height: 340px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .main-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .gallery-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 42px; height: 42px;
+            background: rgba(255,255,255,0.92);
+            border: none; border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            color: var(--navy);
+        }
+        .gallery-arrow:hover { background: var(--gold); transform: translateY(-50%) scale(1.05); }
+        .gallery-arrow.left { left: 14px; }
+        .gallery-arrow.right { right: 14px; }
+
+        .thumb-row {
+            display: flex; gap: 10px;
+            margin-top: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .thumb-row::-webkit-scrollbar { height: 4px; }
+        .thumb-row::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .thumb-row img {
+            width: 84px; height: 64px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+        .thumb-row img:hover { opacity: 1; }
+        .thumb-row img.active { border-color: var(--gold); opacity: 1; }
+
+        /* Booking form */
+        .booking-side { width: 360px; flex-shrink: 0; }
+        .booking-card {
+            background: var(--navy);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 24px 64px rgba(13,27,42,0.2);
+        }
+        .booking-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px; font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+        .booking-card .sub { color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 28px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .form-group label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.07em; }
+        .form-group input, .form-group select {
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 9px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--white);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.3); }
+        .form-group select option { background: var(--navy); color: var(--white); }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.12);
+        }
+        .form-row { display: flex; gap: 12px; }
+        .form-row .form-group { flex: 1; }
+        .book-btn {
+            width: 100%; padding: 15px;
+            background: var(--gold);
+            color: var(--navy);
+            border: none; border-radius: 9px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.25s;
+            letter-spacing: 0.01em;
+        }
+        .book-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+
+        /* ─── FEATURES ───────────────────────────── */
+        .features-section {
+            padding: 100px 60px;
+            background: var(--cream);
+        }
+        .features-inner {
+            display: flex; gap: 80px; align-items: center;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .features-text { flex: 1; }
+        .features-text .section-title { margin-bottom: 16px; }
+        .features-text p { color: var(--gray); line-height: 1.8; font-size: 15px; margin-bottom: 40px; }
+
+        .feature-list { display: flex; flex-direction: column; gap: 24px; }
+        .feature-item { display: flex; gap: 18px; align-items: flex-start; }
+        .feature-icon {
+            width: 48px; height: 48px; flex-shrink: 0;
+            background: var(--navy);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+        .feature-item h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--navy); }
+        .feature-item p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+        .features-image { flex: 1; }
+        .features-image img { width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+
+        /* ─── TESTIMONIALS ───────────────────────── */
+        .testimonials {
+            padding: 100px 60px;
+            background: var(--white);
+            text-align: center;
+        }
+        .testimonials .section-label, .testimonials .section-title { margin: 0 auto; }
+        .testimonials .section-title { margin-bottom: 56px; margin-top: 10px; }
+        .testimonial-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+            max-width: 1100px; margin: 0 auto;
+        }
+        .testimonial-card {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+        }
+        .stars { color: var(--gold); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+        .testimonial-card p { font-size: 14px; color: #555; line-height: 1.75; margin-bottom: 20px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .author-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--navy);
+            color: var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px; font-weight: 700;
+        }
+        .author-name { font-weight: 600; font-size: 14px; }
+        .author-city { font-size: 12px; color: var(--gray); }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            padding: 60px 60px 32px;
+        }
+        .footer-top { display: flex; gap: 60px; margin-bottom: 48px; flex-wrap: wrap; }
+        .footer-brand { flex: 2; min-width: 240px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .footer-logo .logo-text { color: var(--white); }
+        .footer-brand p { font-size: 14px; line-height: 1.75; max-width: 280px; }
+        .footer-col { flex: 1; min-width: 140px; }
+        .footer-col h5 { font-size: 13px; font-weight: 600; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px;
+        }
+        .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+        .footer-bottom a:hover { color: var(--gold); }
+
+        /* ─── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 1024px) {
+            .gallery-booking { flex-direction: column; align-items: center; }
+            .booking-side { width: 100%; max-width: 540px; }
+            .gallery-side { max-width: 100%; width: 100%; }
+            .features-inner { flex-direction: column; }
+            .testimonial-grid { grid-template-columns: 1fr; max-width: 480px; }
+        }
+        @media (max-width: 768px) {
+            .navbar, .fleet-section, .gallery-booking, .features-section, .testimonials, footer { padding-left: 20px; padding-right: 20px; }
+            .hero-content { padding: 0 20px; }
+            .hero-stats { left: 20px; gap: 24px; }
+            .fleet-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .search-bar-wrap { padding: 0 16px; }
+            .search-bar { flex-direction: column; }
+            .search-divider { display: none; }
+            .footer-top { flex-direction: column; gap: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+        </div>
+        <div class="logo-wordmark">
+            <span class="logo-text">My<span>Choize</span></span>
+            <span class="logo-tagline">Premium Car Rentals</span>
+        </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="#" class="nav-cta" onclick="handleBookingIntent(); return false;">Book Now</a>
+        <div class="nav-avatar" id="navAvatar" title="Profile">👤</div>
+    </div>
+    <div class="nav-hamburger" id="navHamburger" onclick="this.classList.toggle('open'); document.getElementById('navLinks').classList.toggle('mobile-open')">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-slider">
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-text">
+            <div class="hero-badge"><span></span>India's Premium Car Rental</div>
+            <h1>Drive Every<br><em>Dream</em> Forward</h1>
+            <p>Curated fleet of luxury, economy and adventure vehicles. Flexible bookings, doorstep delivery, zero hassle.</p>
+            <div class="hero-buttons">
+                <a href="index.html#fleet" class="btn-primary">Explore Fleet</a>
+                <button class="btn-outline" onclick="handleBookingIntent()">Book a Ride</button>
+            </div>
+        </div>
+    </div>
+    <div class="hero-stats">
+        <div class="stat"><div class="stat-num">10K+</div><div class="stat-label">Happy Drivers</div></div>
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Premium Cars</div></div>
+        <div class="stat"><div class="stat-num">25+</div><div class="stat-label">Cities</div></div>
+    </div>
+</section>
+
+<!-- CAR FLEET GRID -->
+<section id="fleet" class="fleet-section">
+    <div class="fleet-header">
+        <div>
+            <div class="section-label">Our Fleet</div>
+            <h2 class="section-title">Available <span>Vehicles</span></h2>
+        </div>
+        <div class="fleet-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="sedan">Sedan</button>
+            <button class="filter-btn" data-filter="suv">SUV</button>
+            <button class="filter-btn" data-filter="hatchback">Hatchback</button>
+            <button class="filter-btn" data-filter="luxury">Luxury</button>
+        </div>
+    </div>
+
+    <div class="cars-grid" id="carsGrid">
+
+        <div class="car-card" data-price="₹2,500" data-type="sedan">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=600&q=80" alt="Toyota Camry" loading="lazy">
+                <span class="car-type-badge">Sedan</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Toyota Camry</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Toyota Camry', 'sedan', '₹2,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹2,000" data-type="sedan">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80" alt="Honda City" loading="lazy">
+                <span class="car-type-badge">Sedan</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Honda City</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,000</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Honda City', 'sedan', '₹2,000')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹3,000" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1614026480418-bd11fdb9fa06?auto=format&fit=crop&w=600&q=80" alt="Hyundai Creta" loading="lazy">
+                <span class="car-type-badge">SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Hyundai Creta</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹3,000</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Hyundai Creta', 'suv', '₹3,000')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹3,200" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=600&q=80" alt="Kia Seltos" loading="lazy">
+                <span class="car-type-badge">SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Kia Seltos</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹3,200</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Kia Seltos', 'suv', '₹3,200')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹3,500" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Mahindra Thar" loading="lazy">
+                <span class="car-type-badge">Off-Road</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Mahindra Thar</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>4 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹3,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Mahindra Thar', 'suv', '₹3,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹2,200" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=600&q=80" alt="Tata Nexon" loading="lazy">
+                <span class="car-type-badge">Compact SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Tata Nexon</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,200</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Tata Nexon', 'suv', '₹2,200')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹1,500" data-type="hatchback">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=600&q=80" alt="Maruti Swift" loading="lazy">
+                <span class="car-type-badge">Hatchback</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Maruti Swift</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹1,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Maruti Swift', 'hatchback', '₹1,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹6,000" data-type="luxury">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80" alt="BMW 3 Series" loading="lazy">
+                <span class="car-type-badge">Luxury</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">BMW 3 Series</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹6,000</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('BMW 3 Series', 'luxury', '₹6,000')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹6,500" data-type="luxury">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=600&q=80" alt="Audi A6" loading="lazy">
+                <span class="car-type-badge">Luxury</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Audi A6</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹6,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Audi A6', 'luxury', '₹6,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹4,500" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="Toyota Fortuner" loading="lazy">
+                <span class="car-type-badge">SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Toyota Fortuner</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>7 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹4,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Toyota Fortuner', 'suv', '₹4,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹7,000" data-type="luxury">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80" alt="Mercedes C-Class" loading="lazy">
+                <span class="car-type-badge">Luxury</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Mercedes C-Class</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹7,000</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Mercedes C-Class', 'luxury', '₹7,000')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹1,800" data-type="hatchback">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80" alt="Volkswagen Polo" loading="lazy">
+                <span class="car-type-badge">Hatchback</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Volkswagen Polo</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹1,800</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Volkswagen Polo', 'hatchback', '₹1,800')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹2,400" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80" alt="Ford EcoSport" loading="lazy">
+                <span class="car-type-badge">Compact SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Ford EcoSport</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,400</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Ford EcoSport', 'suv', '₹2,400')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹4,000" data-type="sedan">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1583267746897-2cf415887172?auto=format&fit=crop&w=600&q=80" alt="Skoda Octavia" loading="lazy">
+                <span class="car-type-badge">Sedan</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Skoda Octavia</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹4,000</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Skoda Octavia', 'sedan', '₹4,000')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹3,800" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=600&q=80" alt="Jeep Compass" loading="lazy">
+                <span class="car-type-badge">SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Jeep Compass</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹3,800</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Jeep Compass', 'suv', '₹3,800')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹1,600" data-type="hatchback">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" alt="Tata Altroz" loading="lazy">
+                <span class="car-type-badge">Hatchback</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Tata Altroz</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹1,600</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Tata Altroz', 'hatchback', '₹1,600')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹9,500" data-type="luxury">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=600&q=80" alt="Volvo XC90" loading="lazy">
+                <span class="car-type-badge">Luxury</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Volvo XC90</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>7 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Hybrid</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹9,500</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Volvo XC90', 'luxury', '₹9,500')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹3,600" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1614026480418-bd11fdb9fa06?auto=format&fit=crop&w=600&q=80" alt="MG Hector Plus" loading="lazy">
+                <span class="car-type-badge">SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">MG Hector Plus</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>7 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Auto</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹3,600</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('MG Hector Plus', 'suv', '₹3,600')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹2,600" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" alt="Renault Duster" loading="lazy">
+                <span class="car-type-badge">Compact SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Renault Duster</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Diesel</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,600</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Renault Duster', 'suv', '₹2,600')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-card" data-price="₹2,100" data-type="suv">
+            <div class="car-img-wrap">
+                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=600&q=80" alt="Honda WR-V" loading="lazy">
+                <span class="car-type-badge">Compact SUV</span>
+                <button class="car-fav">♡</button>
+            </div>
+            <div class="car-body">
+                <div class="car-name">Honda WR-V</div>
+                <div class="car-specs">
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 Seats</span>
+                    <span class="car-spec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Manual</span>
+                    <span class="car-spec">⛽ Petrol</span>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price"><div class="car-price-num">₹2,100</div><div class="car-price-unit">per day</div></div>
+                    <button class="car-book-btn" onclick="selectCar('Honda WR-V', 'suv', '₹2,100')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- GALLERY + BOOKING SECTION -->
+<section class="gallery-booking" id="booking">
+    <div class="gallery-side">
+        <div class="section-label">Photo Gallery</div>
+        <h2 class="section-title" style="margin-bottom:12px;">Experience the <span>Difference</span></h2>
+        <p>Every car in our fleet is meticulously maintained, fully sanitized, and ready to deliver an exceptional journey.</p>
+        <div class="main-img-wrap">
+            <button class="gallery-arrow left" onclick="prevImg()">&#8249;</button>
+            <img id="mainGalleryImg" src="" alt="Gallery">
+            <button class="gallery-arrow right" onclick="nextImg()">&#8250;</button>
+        </div>
+        <div class="thumb-row" id="thumbRow"></div>
+    </div>
+
+    <div class="booking-side">
+        <div class="booking-card">
+            <h3>Reserve Your Car</h3>
+            <div class="sub">Fast & secure booking in under 2 minutes.</div>
+            <form id="bookingForm" onsubmit="submitBooking(); return false;">
+                <div class="form-group" id="selectedCarGroup" style="display:none;">
+                    <label>Selected Car</label>
+                    <input type="text" id="selectedCarInput" readonly style="background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold-light);font-weight:600;cursor:default;">
+                </div>
+                <div class="form-group">
+                    <label>Car Type</label>
+                    <select id="carTypeSelect" required>
+                        <option value="">Select type…</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="hatchback">Hatchback</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="mini">Mini / Economy</option>
+                        <option value="electric">Electric</option>
+                        <option value="minivan">Minivan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pick-up Location</label>
+                    <input type="text" placeholder="City or Airport" required>
+                </div>
+                <div class="form-group">
+                    <label>Drop-off Location</label>
+                    <input type="text" placeholder="City or Airport" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Pick-up Date</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pick-up Time</label>
+                        <input type="time" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Return Date</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Return Time</label>
+                        <input type="time" required>
+                    </div>
+                </div>
+                <div class="form-group" id="budgetGroup">
+                    <label id="budgetLabel">Budget (per day)</label>
+                    <select id="budgetSelect">
+                        <option value="">Select budget range…</option>
+                        <option value="under-2000">Under ₹2,000</option>
+                        <option value="2000-4000">₹2,000 – ₹4,000</option>
+                        <option value="4000-7000">₹4,000 – ₹7,000</option>
+                        <option value="7000+">₹7,000 &amp; above</option>
+                    </select>
+                    <input type="text" id="priceInput" readonly style="display:none;background:rgba(201,168,76,0.12);border:1.5px solid var(--gold);color:var(--gold-light);font-weight:700;font-size:16px;cursor:default;">
+                </div>
+                <button type="button" class="book-btn" onclick="submitBooking()">Confirm Reservation →</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section">
+    <div class="features-inner">
+        <div class="features-text">
+            <div class="section-label">Why Choose Us</div>
+            <h2 class="section-title">Premium Service,<br><span>Zero Compromise</span></h2>
+            <p>We believe every journey deserves a perfect vehicle. From economy hatchbacks to executive sedans, our fleet is built around your comfort, safety, and freedom.</p>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🚗</div>
+                    <div>
+                        <h4>Flexible Rentals for Every Need</h4>
+                        <p>Hourly, daily, or monthly plans. Doorstep pickup and drop. Modify or cancel with ease.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div>
+                        <h4>Safety First, Always</h4>
+                        <p>Every vehicle is sanitized, GPS-tracked, and covered with comprehensive insurance for total peace of mind.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <div>
+                        <h4>Drive Anywhere, Anytime</h4>
+                        <p>25+ cities covered with 24/7 roadside assistance. Long-distance travel made effortless.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="features-image">
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Premium Car">
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">What Our <span>Customers Say</span></h2>
+    <div class="testimonial-grid">
+        <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Booked the Hyundai Creta for a weekend trip. The car was immaculate and the entire booking took under 3 minutes. Absolutely seamless experience!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">R</div>
+                <div><div class="author-name">Rahul Mehta</div><div class="author-city">Mumbai</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"The BMW 3 Series for my client meeting was a game-changer. Professional, clean, and the chauffeur was punctual. MyChoize is my go-to for business travel."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">P</div>
+                <div><div class="author-name">Priya Sharma</div><div class="author-city">Bangalore</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Rented the Mahindra Thar for a Coorg adventure. Powerful, reliable, and the off-road performance was brilliant. Best weekend ever. Will definitely return!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">A</div>
+                <div><div class="author-name">Arjun Nair</div><div class="author-city">Chennai</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width:36px;height:36px">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#c9a84c"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                </div>
+                <span class="logo-text" style="color:white;font-family:'Playfair Display',serif;font-size:20px">My<span style="color:#c9a84c">Choize</span></span>
+            </div>
+            <p>Premium car rentals across India. Comfort, safety, and freedom — delivered to your door.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Quick Links</h5>
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h5>Car Types</h5>
+            <a href="#">Sedans</a>
+            <a href="#">SUVs</a>
+            <a href="#">Hatchbacks</a>
+            <a href="#">Luxury Cars</a>
+            <a href="#">Electric Vehicles</a>
+        </div>
+        <div class="footer-col">
+            <h5>Contact</h5>
+            <a href="tel:+91 91823 52345">+91 91823 52345</a>
+            <a href="mailto:info@mychoize.com">info@mychoize.com</a>
+            <a href="#">Find a Location</a>
+            <a href="#">24/7 Support</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 MyChoize. All rights reserved.</span>
+        <div style="display:flex;gap:20px">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Sitemap</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ── NAVBAR SCROLL SHADOW ──
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // ── NAV LINK ACTIVE ON CLICK ──
+    document.querySelectorAll('.nav-links a:not(.nav-cta)').forEach(link => {
+        link.addEventListener('click', function() {
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+
+            // Close mobile menu when a link is clicked
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.getElementById('navHamburger');
+            if (navLinks && navLinks.classList.contains('mobile-open')) {
+                navLinks.classList.remove('mobile-open');
+                if (hamburger) hamburger.classList.remove('open');
+            }
+        });
+    });
+
+    // ── FILTER BUTTONS (fleet section) ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const selected = this.getAttribute('data-filter');
+            document.querySelectorAll('#carsGrid .car-card').forEach(card => {
+                if (selected === 'all' || card.getAttribute('data-type') === selected) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Fav toggle
+    document.querySelectorAll('.car-fav').forEach(btn => {
+        btn.addEventListener('click', e => { e.stopPropagation(); btn.textContent = btn.textContent === '♡' ? '♥' : '♡'; btn.style.color = btn.textContent === '♥' ? '#e74c3c' : ''; });
+    });
+
+    // ── GALLERY ──
+    const galleryImages = [
+        'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1583267746897-2cf415887172?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1614026480418-bd11fdb9fa06?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80'
+    ];
+    let currentImg = 0;
+    const mainImg = document.getElementById('mainGalleryImg');
+    const thumbRow = document.getElementById('thumbRow');
+
+    mainImg.src = galleryImages[0];
+    galleryImages.forEach((src, i) => {
+        const t = document.createElement('img');
+        t.src = src.replace('w=800','w=180');
+        t.alt = 'Gallery';
+        if (i === 0) t.classList.add('active');
+        t.onclick = () => setImg(i);
+        thumbRow.appendChild(t);
+    });
+
+    function setImg(i) {
+        currentImg = i;
+        mainImg.style.opacity = '0.6';
+        setTimeout(() => { mainImg.src = galleryImages[i]; mainImg.style.opacity = '1'; }, 150);
+        thumbRow.querySelectorAll('img').forEach((t, idx) => t.classList.toggle('active', idx === i));
+    }
+    function prevImg() { setImg((currentImg - 1 + galleryImages.length) % galleryImages.length); }
+    function nextImg() { setImg((currentImg + 1) % galleryImages.length); }
+
+    // ── SELECT CAR FROM FLEET → POPULATE BOOKING FORM ──
+    function selectCar(carName, carType, carPrice) {
+        // Show auth modal if not logged in
+        if (!isLoggedIn()) {
+            showAuthPrompt(window.location.pathname + '#booking');
+            return;
+        }
+
+        // Show and fill the "Selected Car" display field
+        const group = document.getElementById('selectedCarGroup');
+        const input = document.getElementById('selectedCarInput');
+        if (group && input) {
+            input.value = carName;
+            group.style.display = '';
+        }
+
+        // Auto-select matching Car Type in the dropdown
+        const typeSelect = document.getElementById('carTypeSelect');
+        if (typeSelect) {
+            for (let opt of typeSelect.options) {
+                if (opt.value === carType) { opt.selected = true; break; }
+            }
+        }
+
+        // Swap Budget field → Price field
+        const budgetLabel  = document.getElementById('budgetLabel');
+        const budgetSelect = document.getElementById('budgetSelect');
+        const priceInput   = document.getElementById('priceInput');
+        if (budgetLabel && budgetSelect && priceInput) {
+            budgetLabel.textContent = 'Price (per day)';
+            budgetSelect.style.display = 'none';
+            priceInput.value = carPrice + ' / day';
+            priceInput.style.display = '';
+        }
+
+        // Smooth scroll to booking form
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+
+        // Pulse gold border on the booking card to draw attention
+        const card = document.querySelector('.booking-card');
+        if (card) {
+            card.style.transition = 'box-shadow 0.35s ease';
+            card.style.boxShadow = '0 0 0 3px var(--gold), 0 24px 60px rgba(0,0,0,0.35)';
+            setTimeout(() => { card.style.boxShadow = ''; }, 1800);
+        }
+    }
+
+    // ── AUTH HELPERS ──
+    function showAuthPrompt(redirectUrl) {
+        const next = redirectUrl || window.location.href;
+        localStorage.setItem('mychoize_next', next);
+        sessionStorage.setItem('mychoize_next', next);
+        const overlay = document.getElementById('authPrompt');
+        if (overlay) overlay.classList.add('open');
+    }
+
+    function closeAuthPrompt() {
+        const overlay = document.getElementById('authPrompt');
+        if (overlay) overlay.classList.remove('open');
+    }
+
+    function handleBookingIntent() {
+        if (isLoggedIn()) {
+            document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+            return;
+        }
+        showAuthPrompt(window.location.pathname + '#booking');
+    }
+
+    function requireLogin(redirectUrl) {
+        if (isLoggedIn()) return true;
+        showAuthPrompt(redirectUrl);
+        return false;
+    }
+
+    // Reset booking form to default state (Budget mode)
+    function resetBookingForm() {
+        document.getElementById('selectedCarGroup').style.display = 'none';
+        document.getElementById('selectedCarInput').value = '';
+        document.getElementById('carTypeSelect').selectedIndex = 0;
+        document.getElementById('budgetLabel').textContent = 'Budget (per day)';
+        document.getElementById('budgetSelect').style.display = '';
+        document.getElementById('priceInput').style.display = 'none';
+        document.getElementById('priceInput').value = '';
+    }
+
+    function addBookingHistory(entry) {
+        try {
+            const history = JSON.parse(localStorage.getItem('mychoize_booking_history') || '[]');
+            history.push(entry);
+            localStorage.setItem('mychoize_booking_history', JSON.stringify(history));
+        } catch (e) {
+            console.warn('Failed to save booking history', e);
+        }
+    }
+
+    // ── BOOKING FORM SUBMISSION ──
+    function submitBooking() {
+        if (!requireLogin(window.location.pathname + '#booking')) return;
+        const form = document.getElementById('bookingForm');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        const selectedCar = document.getElementById('selectedCarInput').value;
+        const carType     = document.getElementById('carTypeSelect').value;
+        const pickup      = form.querySelector('input[placeholder="City or Airport"]').value;
+        const dropoff     = form.querySelectorAll('input[placeholder="City or Airport"]')[1].value;
+        const dates       = form.querySelectorAll('input[type="date"]');
+        const times       = form.querySelectorAll('input[type="time"]');
+
+        const bookingPrice = document.getElementById('priceInput').value || document.getElementById('budgetSelect').value;
+        const bookingData = {
+            carName:    selectedCar || carType,
+            carType,
+            pickup,
+            dropoff,
+            pickupDate: dates[0]?.value,
+            pickupTime: times[0]?.value,
+            returnDate: dates[1]?.value,
+            returnTime: times[1]?.value,
+            price: bookingPrice,
+            carPrice: bookingPrice
+        };
+
+        console.log('Booking submitted', bookingData);
+        sessionStorage.setItem('mychoize_booking', JSON.stringify(bookingData));
+
+        addBookingHistory({
+            bookingDate: new Date().toISOString(),
+            service: carType,
+            carName: bookingData.carName,
+            carPrice: bookingData.carPrice,
+            pickup: bookingData.pickup,
+            dropoff: bookingData.dropoff,
+            status: 'Pending',
+            details: bookingData
+        });
+
+        resetBookingForm();
+        window.location.href = 'booking_confirmation.html';
+    }
+
+    function isLoggedIn() {
+        const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
+        const local = localStorage.getItem('mychoize_logged_in') === 'true' &&
+                      localStorage.getItem('mychoize_remember') === 'true';
+        return session || local;
+    }
+
+    function getUserValue(key) {
+        return sessionStorage.getItem(key) ?? localStorage.getItem(key) ?? '';
+    }
+
+    function signOut() {
+        ['mychoize_logged_in', 'mychoize_user_email', 'mychoize_user_name', 'mychoize_user_created', 'mychoize_user', 'mychoize_remember'].forEach(k => {
+            localStorage.removeItem(k);
+            sessionStorage.removeItem(k);
+        });
+        window.location.href = 'index.html';
+    }
+
+    function getUserInitial() {
+        const name = (getUserValue('mychoize_user_name') || '').trim();
+        const email = (getUserValue('mychoize_user_email') || '').trim();
+        const base = name || (email.split('@')[0] || '');
+        return base ? base.trim()[0].toUpperCase() : '';
+    }
+
+    function updateProfileAvatar() {
+        const avatar = document.getElementById('navAvatar');
+        if (!avatar) return;
+        const loggedIn = isLoggedIn();
+        const initial = getUserInitial() || '👤';
+        avatar.textContent = loggedIn ? initial : '👤';
+        avatar.classList.toggle('logged-in', loggedIn);
+        avatar.title = loggedIn ? (getUserValue('mychoize_user_name') || getUserValue('mychoize_user_email') || 'Profile') : 'Profile';
+        avatar.onclick = () => window.location.href = 'profile.html';
+    }
+
+    function updateAuthLinks() {
+        var loggedIn = isLoggedIn();
+        document.querySelectorAll('[data-auth="toggle"]').forEach(function(el){
+            if (loggedIn) {
+                el.textContent = 'Sign Out';
+                el.href = '#';
+                el.onclick = function(e){ e.preventDefault(); signOut(); };
+            } else {
+                el.textContent = 'Sign In';
+                el.href = 'login.html';
+                el.onclick = null;
+            }
+        });
+        updateProfileAvatar();
+    }
+
+    document.addEventListener('DOMContentLoaded', updateAuthLinks);
+    updateAuthLinks();
+</script>
+
+<div class="auth-prompt-overlay" id="authPrompt">
+    <div class="auth-prompt">
+        <button class="auth-close" onclick="closeAuthPrompt()" aria-label="Close">×</button>
+        <div class="auth-prompt-header">
+            <div class="auth-prompt-icon">🔒</div>
+            <h3>You're almost there</h3>
+            <p>Sign in to continue — your selections will be saved and your booking will finish smoothly.</p>
+        </div>
+        <div class="auth-actions">
+            <a class="btn btn-primary" href="login.html">Login</a>
+            <a class="btn btn-secondary" href="sign_up.html">Sign Up</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

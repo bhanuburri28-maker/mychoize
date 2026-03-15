@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — MyChoize</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b2a'/%3E%3Cpath fill='%23c9a84c' d='M25.23 11.68C24.96 10.85 24.21 10.28 23.33 10.28H8.67c-.88 0-1.62.57-1.9 1.4L4 19.5v6c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V24h16v1.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5v-6l-2.77-7.82zM9.5 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm13 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 17.5l2-6h14l2 6H7z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --gold: #c9a84c;
+            --gold-light: #e8c97e;
+            --cream: #f8f4ef;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --text: #1a1a2e;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+            transition: box-shadow 0.35s ease, background 0.35s ease;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 8px 32px rgba(13,27,42,0.1);
+            background: rgba(255,255,255,0.99);
+        }
+        .logo {
+            display: flex; align-items: center; gap: 11px;
+            text-decoration: none; flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--navy);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon { transform: rotate(-6deg) scale(1.06); }
+        .logo-icon::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+        }
+        .logo-icon svg { width: 22px; height: 22px; fill: var(--gold); position: relative; z-index: 1; }
+        .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 700;
+            color: var(--navy); letter-spacing: -0.01em;
+        }
+        .logo-text span { color: var(--gold); }
+        .logo-tagline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px; font-weight: 500;
+            color: rgba(55,65,81,0.7);
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex; align-items: center;
+            gap: 2px; list-style: none;
+        }
+        .nav-links a {
+            position: relative;
+            padding: 7px 15px;
+            color: #374151; text-decoration: none;
+            font-size: 13.5px; font-weight: 500;
+            border-radius: 7px;
+            transition: color 0.2s, background 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: 2px; left: 15px; right: 15px;
+            height: 2px; background: var(--gold); border-radius: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav-links a:hover { color: var(--navy); background: rgba(13,27,42,0.04); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--navy); font-weight: 600; background: rgba(201,168,76,0.1); }
+        .nav-links a.active::after { transform: scaleX(1); }
+        .nav-divider {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #d1d5db; margin: 0 4px; flex-shrink: 0;
+        }
+        .nav-cta {
+            display: inline-flex !important; align-items: center; gap: 7px;
+            padding: 9px 20px !important;
+            background: var(--navy) !important; color: var(--white) !important;
+            border-radius: 8px !important;
+            font-size: 13.5px !important; font-weight: 600 !important;
+            letter-spacing: 0.02em;
+            transition: all 0.25s ease !important;
+            box-shadow: 0 2px 8px rgba(13,27,42,0.2);
+        }
+        .nav-cta::after { display: none; }
+        .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; border-radius: 7px;
+            border: none; background: none; transition: background 0.2s;
+        }
+        .nav-hamburger:hover { background: rgba(0,0,0,0.06); }
+        .nav-hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--navy); border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .nav-mobile {
+            display: none; position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(255,255,255,0.98);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+            z-index: 1100; padding: 16px 20px 24px;
+            flex-direction: column; gap: 4px;
+            animation: slideDown 0.25s ease both;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .nav-mobile.open { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-mobile a {
+            padding: 11px 16px; color: #374151;
+            text-decoration: none; font-size: 15px; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s; display: block;
+        }
+        .nav-mobile a:hover { background: rgba(13,27,42,0.05); color: var(--navy); }
+        .nav-mobile a.active { background: rgba(201,168,76,0.12); color: var(--navy); font-weight: 600; }
+        .nav-mobile .nav-cta { margin-top: 8px; text-align: center; display: block !important; padding: 12px 20px !important; }
+        .nav-mobile-divider { height: 1px; background: #f3f4f6; margin: 8px 0; }
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+        .nav-avatar { width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: rgba(55,65,81,0.8); background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.12); cursor: pointer; transition: all 0.2s ease; }
+        .nav-avatar:hover { transform: translateY(-1px); background: rgba(0,0,0,0.1); }
+        .nav-avatar.logged-in { background: var(--gold); color: var(--navy); border-color: rgba(201,168,76,0.5); }
+
+        .profile-hero { padding: 80px 60px 60px; max-width: 980px; margin: 0 auto; }
+        .profile-header { display: flex; align-items: center; gap: 22px; margin-bottom: 24px; }
+        .profile-pill { background: rgba(201,168,76,0.16); color: var(--navy); padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+        .profile-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 38px); color: var(--navy); margin: 0; }
+        .profile-sub { font-size: 15px; color: var(--gray); max-width: 640px; line-height: 1.7; margin-bottom: 38px; }
+
+        .profile-card { background: var(--white); border-radius: 22px; box-shadow: 0 22px 56px rgba(0,0,0,0.12); padding: 30px 32px; display: grid; grid-template-columns: 112px 1fr; gap: 28px; align-items: center; }
+        .profile-badge { width: 94px; height: 94px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 900; color: var(--navy); background: rgba(201,168,76,0.2); }
+        .profile-details h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--navy); }
+        .profile-details p { margin: 0; color: var(--gray); font-size: 14px; line-height: 1.6; }
+
+        .profile-actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+        .btn-primary { background: var(--navy); color: var(--white); box-shadow: 0 10px 20px rgba(13,27,42,0.18); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(13,27,42,0.22); }
+        .btn-secondary { background: rgba(201,168,76,0.18); color: var(--navy); box-shadow: 0 10px 20px rgba(201,168,76,0.18); }
+        .btn-secondary:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(201,168,76,0.24); }
+
+        .profile-extra { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+        .section-block { background: var(--white); border-radius: 20px; padding: 24px 26px; box-shadow: 0 18px 40px rgba(0,0,0,0.08); }
+        .section-block h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 14px; }
+        .section-block p { color: var(--gray); font-size: 14px; line-height: 1.65; margin-bottom: 18px; }
+        .history-list { display: flex; flex-direction: column; gap: 12px; }
+        .history-empty { font-size: 14px; color: rgba(55,65,81,0.6); padding: 18px; border-radius: 14px; background: rgba(241,240,238,0.8); text-align: center; }
+        .history-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(226,223,218,0.8); background: rgba(255,255,255,0.8); }
+        .history-main { flex: 1; }
+        .history-title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+        .history-meta { font-size: 13px; color: var(--gray); line-height: 1.5; }
+        .history-badge { padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(201,168,76,0.14); color: var(--navy); }
+        .action-grid { display: grid; grid-template-columns: repeat(2,minmax(160px,1fr)); gap: 12px; }
+
+        @media (max-width: 820px) {
+            .navbar { padding: 16px 24px; }
+            .profile-hero { padding: 54px 24px 40px; }
+            .profile-card { grid-template-columns: 1fr; text-align: center; }
+            .profile-extra { grid-template-columns: 1fr; }
+            .action-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+        <div class="logo-wordmark">
+            <span class="logo-text">My<span>Choize</span></span>
+            <span class="logo-tagline">Premium Car Rentals</span>
+        </div>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+        <div class="nav-avatar" id="navAvatar" title="Profile">👤</div>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html" class="active">Profile</a>
+    <div class="nav-mobile-divider"></div>
+    <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+</div>
+
+<main class="profile-hero">
+    <div class="profile-header">
+        <span class="profile-pill">My Profile</span>
+        <h1>Account details & settings</h1>
+    </div>
+    <p class="profile-sub">Keep your account updated and manage your bookings, preferences and personal info in one place. If you're not signed in, you can do that right here.</p>
+
+    <div class="profile-card" id="profileCard">
+        <div class="profile-badge" id="profileInitial">👤</div>
+        <div class="profile-details">
+            <h2 id="profileName">Welcome!</h2>
+            <p id="profileEmail">You are not signed in.</p>
+            <p id="profileMemberSince" style="margin-top:10px; font-size:13px; color:var(--gray);"></p>
+            <p id="profileBio">Sign in to view your booking history and save your preferences.</p>
+            <div class="profile-actions" id="profileActions">
+                <a class="btn btn-primary" href="login.html">Sign In</a>
+                <a class="btn btn-secondary" href="sign_up.html">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="profile-extra">
+        <div class="section-block">
+            <h3>Recent bookings</h3>
+            <div class="history-list" id="bookingHistory">
+                <div class="history-empty">No bookings yet. Book a service to see it here.</div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <h3>Account actions</h3>
+            <p>Manage your account data and keep your preferences up to date.</p>
+            <div class="action-grid">
+                <button class="btn btn-secondary" onclick="clearBookingHistory()">Clear booking history</button>
+                <button class="btn btn-secondary" onclick="signOut()">Sign Out</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer style="padding: 28px 60px; font-size: 13px; color: rgba(55,65,81,0.7); display: flex; justify-content: space-between; align-items: center;">
+    <div>© 2026 MyChoize. All rights reserved.</div>
+    <div style="display:flex; gap: 18px;"><a href="#" style="color: rgba(55,65,81,0.7);">Privacy</a><a href="#" style="color: rgba(55,65,81,0.7);">Terms</a></div>
+</footer>
+
+<script>
+    function isLoggedIn() {
+        const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
+        const local = localStorage.getItem('mychoize_logged_in') === 'true' &&
+                      localStorage.getItem('mychoize_remember') === 'true';
+        return session || local;
+    }
+
+    function getUserValue(key) {
+        return sessionStorage.getItem(key) ?? localStorage.getItem(key) ?? '';
+    }
+
+    function setUserValue(key, value, remember) {
+        if (remember) {
+            localStorage.setItem(key, value);
+            sessionStorage.removeItem(key);
+        } else {
+            sessionStorage.setItem(key, value);
+            localStorage.removeItem(key);
+        }
+    }
+
+    function signOut() {
+        ['mychoize_logged_in', 'mychoize_user_email', 'mychoize_user_name', 'mychoize_user_created', 'mychoize_user', 'mychoize_remember'].forEach(k => {
+            localStorage.removeItem(k);
+            sessionStorage.removeItem(k);
+        });
+        window.location.href = 'index.html';
+    }
+
+    function getUserInitial() {
+        const name = (getUserValue('mychoize_user_name') || '').trim();
+        const email = (getUserValue('mychoize_user_email') || '').trim();
+        const base = name || (email.split('@')[0] || '');
+        return base ? base.trim()[0].toUpperCase() : '';
+    }
+
+    function getUserAvatar() {
+        return getUserValue('mychoize_user_avatar') || '';
+    }
+
+    function updateProfileAvatar() {
+        const avatar = document.getElementById('navAvatar');
+        if (!avatar) return;
+        const loggedIn = isLoggedIn();
+        const avatarUrl = loggedIn ? getUserAvatar() : '';
+
+        if (avatarUrl) {
+            avatar.style.backgroundImage = `url('${avatarUrl}')`;
+            avatar.style.backgroundSize = 'cover';
+            avatar.style.backgroundPosition = 'center';
+            avatar.textContent = '';
+        } else {
+            avatar.style.backgroundImage = '';
+            const initial = getUserInitial() || '👤';
+            avatar.textContent = loggedIn ? initial : '👤';
+        }
+
+        avatar.classList.toggle('logged-in', loggedIn);
+        avatar.title = loggedIn ? (getUserValue('mychoize_user_name') || getUserValue('mychoize_user_email') || 'Profile') : 'Profile';
+        avatar.onclick = () => window.location.href = 'profile.html';
+    }
+
+    function updateProfilePage() {
+        const loggedIn = isLoggedIn();
+        const name = getUserValue('mychoize_user_name');
+        const email = getUserValue('mychoize_user_email');
+        const memberSince = getUserValue('mychoize_user_created');
+
+        const initialEl = document.getElementById('profileInitial');
+        const nameEl = document.getElementById('profileName');
+        const emailEl = document.getElementById('profileEmail');
+        const memberEl = document.getElementById('profileMemberSince');
+        const bioEl = document.getElementById('profileBio');
+        const actions = document.getElementById('profileActions');
+
+        initialEl.textContent = getUserInitial() || '👤';
+
+        if (loggedIn) {
+            nameEl.textContent = name || email || 'MyChoize Member';
+            emailEl.textContent = email || 'No email set';
+            if (memberSince) {
+                const date = new Date(memberSince);
+                memberEl.textContent = `Member since ${date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}`;
+            } else {
+                memberEl.textContent = '';
+            }
+            bioEl.textContent = 'You are signed in. Use the button below to sign out or return to booking.';
+            actions.innerHTML = `
+                <button class="btn btn-primary" onclick="signOut()">Sign Out</button>
+                <a class="btn btn-secondary" href="index.html">Back to Home</a>
+            `;
+        } else {
+            nameEl.textContent = 'Welcome!';
+            emailEl.textContent = 'You are not signed in.';
+            memberEl.textContent = '';
+            bioEl.textContent = 'Sign in or create an account to save your bookings and access your profile from anywhere.';
+            actions.innerHTML = `
+                <a class="btn btn-primary" href="login.html">Sign In</a>
+                <a class="btn btn-secondary" href="sign_up.html">Sign Up</a>
+            `;
+        }
+    }
+
+    function getBookingHistory() {
+        try {
+            return JSON.parse(localStorage.getItem('mychoize_booking_history') || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function formatBooking(booking) {
+        const when = booking.bookingDate ? new Date(booking.bookingDate) : new Date();
+        const whenStr = when.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+        return {
+            title: booking.service || booking.carName || 'Booking',
+            subtitle: booking.pickup ? `${booking.pickup} → ${booking.dropoff}` : booking.city || '',
+            meta: `Booked on ${whenStr}`,
+            status: booking.status || 'Pending'
+        };
+    }
+
+    function renderBookingHistory() {
+        const list = document.getElementById('bookingHistory');
+        if (!list) return;
+
+        if (!isLoggedIn()) {
+            list.innerHTML = '<div class="history-empty">Sign in to view your recent bookings.</div>';
+            return;
+        }
+
+        const history = getBookingHistory().slice(-3).reverse();
+        if (!history.length) {
+            list.innerHTML = '<div class="history-empty">No bookings yet. Book a service to see it here.</div>';
+            return;
+        }
+
+        list.innerHTML = history.map(function(b) {
+            const h = formatBooking(b);
+            return `
+                <div class="history-item">
+                    <div class="history-main">
+                        <div class="history-title">${h.title}</div>
+                        <div class="history-meta">${h.subtitle}</div>
+                        <div class="history-meta" style="margin-top:6px;">${h.meta}</div>
+                    </div>
+                    <div class="history-badge">${h.status}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function clearBookingHistory() {
+        localStorage.removeItem('mychoize_booking_history');
+        renderBookingHistory();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProfileAvatar();
+        updateProfilePage();
+        renderBookingHistory();
+    });
+
+    (function() {
+        var nb  = document.getElementById('navbar');
+        var ham = document.getElementById('navHamburger');
+        var mob = document.getElementById('navMobile');
+        if (nb) {
+            window.addEventListener('scroll', function() {
+                nb.classList.toggle('scrolled', window.scrollY > 20);
+            });
+        }
+        if (ham && mob) {
+            ham.addEventListener('click', function() {
+                ham.classList.toggle('open');
+                mob.classList.toggle('open');
+            });
+            mob.querySelectorAll('a').forEach(function(a) {
+                a.addEventListener('click', function() {
+                    ham.classList.remove('open');
+                    mob.classList.remove('open');
+                });
+            });
+        }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us — MyChoize</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b2a'/%3E%3Cpath fill='%23c9a84c' d='M25.23 11.68C24.96 10.85 24.21 10.28 23.33 10.28H8.67c-.88 0-1.62.57-1.9 1.4L4 19.5v6c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V24h16v1.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5v-6l-2.77-7.82zM9.5 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm13 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 17.5l2-6h14l2 6H7z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy-mid: #1a2e45;
+            --gold: #c9a84c;
+            --gold-light: #e8c97e;
+            --cream: #f8f4ef;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --light-gray: #f1f0ee;
+            --border: #e5e7eb;
+            --error: #e53e3e;
+            --text: #1a1a2e;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            position: relative; background: var(--navy);
+            padding: 100px 60px 80px; overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1583267746897-2cf415887172?w=1400') center/cover no-repeat;
+            opacity: 0.11;
+        }
+        .page-hero::after {
+            content: ''; position: absolute; top: -80px; right: -80px;
+            width: 420px; height: 420px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-inner { position: relative; z-index: 2; max-width: 680px; animation: fadeUp 0.8s ease both; }
+        .page-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35);
+            color: var(--gold-light); padding: 6px 14px; border-radius: 50px;
+            font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px;
+        }
+        .page-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; display: inline-block; }
+        .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 900; color: var(--white); line-height: 1.08; margin-bottom: 20px; }
+        .page-hero h1 em { color: var(--gold); font-style: normal; }
+        .page-hero p { font-size: 17px; color: rgba(255,255,255,0.62); line-height: 1.8; font-weight: 300; max-width: 520px; }
+        .breadcrumb { position: relative; z-index: 2; display: flex; align-items: center; gap: 8px; margin-top: 40px; font-size: 13px; color: rgba(255,255,255,0.4); }
+        .breadcrumb a { color: rgba(255,255,255,0.4); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb .sep { color: rgba(255,255,255,0.2); }
+        .breadcrumb .current { color: var(--gold); }
+
+        /* ── CONTACT LAYOUT ── */
+        .contact-section {
+            padding: 80px 60px 100px;
+        }
+        .contact-inner {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+            align-items: start;
+        }
+
+        /* ── INFO COLUMN ── */
+        .info-col { display: flex; flex-direction: column; gap: 20px; }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            display: flex; align-items: flex-start; gap: 16px;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .info-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.1); }
+
+        .info-icon {
+            width: 46px; height: 46px; flex-shrink: 0;
+            background: rgba(13,27,42,0.06);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .info-icon svg { width: 20px; height: 20px; stroke: var(--navy); fill: none; }
+
+        .info-text h4 {
+            font-size: 14px; font-weight: 700;
+            color: var(--navy); margin-bottom: 6px;
+            letter-spacing: 0.01em;
+        }
+        .info-text p { font-size: 13.5px; color: var(--gray); line-height: 1.65; }
+        .info-text a { color: var(--navy); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .info-text a:hover { color: var(--gold); }
+
+        /* Hours table */
+        .hours-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+        .hours-row:not(:last-child) { border-bottom: 1px solid var(--light-gray); }
+        .hours-row span:first-child { color: var(--gray); }
+        .hours-row span:last-child { font-weight: 600; color: var(--navy); }
+        .closed { color: var(--error) !important; }
+
+        /* Live status */
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(47,133,90,0.1);
+            color: #2f855a;
+            font-size: 11px; font-weight: 700;
+            padding: 4px 10px; border-radius: 50px;
+            margin-top: 8px; letter-spacing: 0.04em;
+        }
+        .status-dot { width: 7px; height: 7px; background: #2f855a; border-radius: 50%; animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Social row */
+        .social-row { display: flex; gap: 10px; margin-top: 10px; }
+        .social-btn {
+            width: 38px; height: 38px;
+            background: var(--navy); border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .social-btn:hover { background: var(--gold); transform: translateY(-2px); }
+        .social-btn svg { width: 17px; height: 17px; fill: white; }
+
+        /* ── FORM CARD ── */
+        .form-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 44px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        }
+        .form-card-header { margin-bottom: 32px; }
+        .form-card-header .section-label { font-size: 11px; font-weight: 600; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+        .form-card-header h2 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+        .form-card-header p { font-size: 14px; color: var(--gray); margin-top: 8px; line-height: 1.6; }
+
+        /* Subject tabs */
+        .subject-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+        .tab-btn {
+            padding: 7px 16px;
+            background: var(--light-gray); color: var(--gray);
+            border: 1.5px solid transparent;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .tab-btn:hover { border-color: var(--navy); color: var(--navy); }
+        .tab-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+        /* Form fields */
+        .form-row { display: flex; gap: 18px; margin-bottom: 18px; }
+        .form-row .form-group { flex: 1; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray); margin-bottom: 7px; }
+
+        .input-wrap { position: relative; display: flex; align-items: center; }
+        .input-icon { position: absolute; left: 13px; color: #bbb; pointer-events: none; display: flex; }
+        .input-icon svg { width: 15px; height: 15px; }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            background: #fafafa;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px; color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group textarea { padding: 14px; resize: none; height: 130px; }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #c5c9d0; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(13,27,42,0.07);
+            background: var(--white);
+        }
+        .form-group input.error { border-color: var(--error); }
+        .error-msg { font-size: 12px; color: var(--error); margin-top: 5px; display: none; }
+        .error-msg.show { display: block; }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%; padding: 15px;
+            background: var(--navy); color: var(--white);
+            border: none; border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer; letter-spacing: 0.01em;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.25s; position: relative; overflow: hidden;
+            margin-top: 6px;
+        }
+        .submit-btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-100%); transition: transform 0.5s;
+        }
+        .submit-btn:hover::before { transform: translateX(100%); }
+        .submit-btn:hover { background: var(--gold); color: var(--navy); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+        .submit-btn svg { width: 16px; height: 16px; transition: transform 0.2s; }
+        .submit-btn:hover svg { transform: translateX(3px); }
+        .submit-btn .spinner { display: none; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.35); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .submit-btn.loading .spinner { display: block; }
+        .submit-btn.loading .btn-text { opacity: 0.5; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── MAP SECTION ── */
+        .map-section { padding: 0 60px 100px; }
+        .map-inner { max-width: 1200px; margin: 0 auto; }
+        .map-inner h3 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+        .map-frame {
+            width: 100%; height: 380px; border-radius: 20px;
+            overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            position: relative; background: var(--light-gray);
+        }
+        .map-frame iframe { width: 100%; height: 100%; border: none; }
+        .map-overlay-badge {
+            position: absolute; bottom: 20px; left: 20px;
+            background: var(--navy); color: var(--white);
+            padding: 12px 20px; border-radius: 12px;
+            font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .map-overlay-badge svg { width: 16px; height: 16px; fill: var(--gold); }
+
+        /* ── FAQ STRIP ── */
+        .faq-section {
+            padding: 80px 60px;
+            background: var(--white);
+        }
+        .faq-inner { max-width: 860px; margin: 0 auto; }
+        .faq-header { text-align: center; margin-bottom: 48px; }
+        .section-label { font-size: 11px; font-weight: 600; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3vw, 38px); font-weight: 700; color: var(--navy); }
+        .section-title span { color: var(--gold); }
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: var(--light-gray); border-radius: 12px; overflow: hidden; }
+        .faq-q {
+            padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-size: 15px; font-weight: 600; color: var(--navy);
+            transition: background 0.2s;
+        }
+        .faq-q:hover { background: #ebe9e4; }
+        .faq-q.open { background: var(--navy); color: var(--white); }
+        .faq-arrow { font-size: 18px; transition: transform 0.3s; }
+        .faq-q.open .faq-arrow { transform: rotate(180deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s; }
+        .faq-a.open { max-height: 200px; }
+        .faq-a p { padding: 16px 22px; font-size: 14px; color: var(--gray); line-height: 1.75; }
+
+        /* ── CTA ── */
+        .cta-section { padding: 80px 60px 100px; text-align: center; }
+        .cta-inner { max-width: 600px; margin: 0 auto; }
+        .cta-inner .section-title { margin-bottom: 16px; margin-top: 10px; }
+        .cta-inner p { color: var(--gray); font-size: 15px; line-height: 1.8; margin-bottom: 36px; }
+        .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { padding: 13px 32px; background: var(--navy); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.25s; }
+        .btn-primary:hover { background: var(--gold); color: var(--navy); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+        .btn-outline { padding: 13px 32px; background: transparent; color: var(--navy); border: 1.5px solid var(--navy); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.25s; }
+        .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+        /* ── FOOTER ── */
+        footer { background: var(--navy); color: rgba(255,255,255,0.55); padding: 60px 60px 32px; }
+        .footer-top { display: flex; gap: 60px; margin-bottom: 48px; flex-wrap: wrap; }
+        .footer-brand { flex: 2; min-width: 220px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .footer-brand p { font-size: 14px; line-height: 1.75; max-width: 260px; }
+        .footer-col { flex: 1; min-width: 130px; }
+        .footer-col h5 { font-size: 12px; font-weight: 600; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 12px; }
+        .footer-bottom a { color: rgba(255,255,255,0.35); text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: var(--gold); }
+
+        /* ── MODAL ── */
+        .modal-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: var(--white); border-radius: 20px; padding: 44px; max-width: 420px; width: 90%; text-align: center; animation: popIn 0.3s cubic-bezier(0.22,1,0.36,1); }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .modal-icon { font-size: 52px; margin-bottom: 16px; }
+        .modal h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 10px; }
+        .modal p { color: var(--gray); font-size: 15px; line-height: 1.65; margin-bottom: 28px; }
+        .modal-close { padding: 12px 32px; background: var(--navy); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .modal-close:hover { background: var(--gold); color: var(--navy); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 960px) {
+            .contact-inner { grid-template-columns: 1fr; }
+            .info-col { flex-direction: row; flex-wrap: wrap; }
+            .info-card { flex: 1; min-width: 220px; }
+        }
+        @media (max-width: 768px) {
+            .topbar, .navbar, .page-hero, .contact-section, .map-section, .faq-section, .cta-section, footer { padding-left: 20px; padding-right: 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .topbar { display: none; }
+            .footer-top { flex-direction: column; }
+            .info-col { flex-direction: column; }
+        }
+    
+        /* ── NAVBAR ── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+            transition: box-shadow 0.35s ease, background 0.35s ease;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 8px 32px rgba(13,27,42,0.1);
+            background: rgba(255,255,255,0.99);
+        }
+        .logo {
+            display: flex; align-items: center; gap: 11px;
+            text-decoration: none; flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--navy);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover .logo-icon { transform: rotate(-6deg) scale(1.06); }
+        .logo-icon::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+        }
+        .logo-icon svg { width: 22px; height: 22px; fill: var(--gold); position: relative; z-index: 1; }
+        .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 700;
+            color: var(--navy); letter-spacing: -0.01em;
+        }
+        .logo-text span { color: var(--gold); }
+        .logo-tagline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px; font-weight: 500;
+            color: rgba(55,65,81,0.7);
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex; align-items: center;
+            gap: 2px; list-style: none;
+        }
+        .nav-links a {
+            position: relative;
+            padding: 7px 15px;
+            color: #374151; text-decoration: none;
+            font-size: 13.5px; font-weight: 500;
+            border-radius: 7px;
+            transition: color 0.2s, background 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: 2px; left: 15px; right: 15px;
+            height: 2px; background: var(--gold); border-radius: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav-links a:hover { color: var(--navy); background: rgba(13,27,42,0.04); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: var(--navy); font-weight: 600; background: rgba(201,168,76,0.1); }
+        .nav-links a.active::after { transform: scaleX(1); }
+        .nav-divider {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #d1d5db; margin: 0 4px; flex-shrink: 0;
+        }
+        .nav-cta {
+            display: inline-flex !important; align-items: center; gap: 7px;
+            padding: 9px 20px !important;
+            background: var(--navy) !important; color: var(--white) !important;
+            border-radius: 8px !important;
+            font-size: 13.5px !important; font-weight: 600 !important;
+            letter-spacing: 0.02em;
+            transition: all 0.25s ease !important;
+            box-shadow: 0 2px 8px rgba(13,27,42,0.2);
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--gold) !important; color: var(--navy) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(201,168,76,0.38) !important;
+        }
+        .nav-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+            color: rgba(55,65,81,0.8);
+            background: rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+        .nav-avatar:hover { transform: translateY(-1px); background: rgba(0,0,0,0.1); }
+        .nav-avatar.logged-in { background: var(--gold); color: var(--navy); border-color: rgba(201,168,76,0.5); }
+        .nav-avatar.logged-in:hover { background: var(--gold-light); }
+        /* Auth prompt modal */
+        .auth-prompt-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(13,27,42,0.72);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .auth-prompt-overlay.open { display: flex !important; }
+        .auth-prompt {
+            max-width: 440px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 18px;
+            padding: 30px 26px 24px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.26);
+            position: relative;
+            text-align: center;
+        }
+        .auth-prompt-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .auth-prompt-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(201,168,76,0.16);
+            font-size: 28px;
+        }
+        .auth-prompt h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin: 0;
+            color: var(--navy);
+        }
+        .auth-prompt p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+            line-height: 1.55;
+        }
+        .auth-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .auth-actions .btn {
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .auth-actions .btn:hover { transform: translateY(-1px); }
+        .auth-actions .btn-primary {
+            background: var(--navy);
+            color: var(--white);
+            box-shadow: 0 10px 20px rgba(13,27,42,0.18);
+        }
+        .auth-actions .btn-primary:hover { box-shadow: 0 12px 26px rgba(13,27,42,0.22); }
+        .auth-actions .btn-secondary {
+            background: rgba(201,168,76,0.18);
+            color: var(--navy);
+            box-shadow: 0 10px 20px rgba(201,168,76,0.18);
+        }
+        .auth-actions .btn-secondary:hover { box-shadow: 0 12px 26px rgba(201,168,76,0.24); }
+        .auth-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 0;
+            color: var(--navy);
+        }
+        .auth-close:hover { background: rgba(0,0,0,0.12); }
+        .nav-hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; border-radius: 7px;
+            border: none; background: none; transition: background 0.2s;
+        }
+        .nav-hamburger:hover { background: rgba(0,0,0,0.06); }
+        .nav-hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--navy); border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .nav-mobile {
+            display: none; position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(255,255,255,0.98);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+            z-index: 1100; padding: 16px 20px 24px;
+            flex-direction: column; gap: 4px;
+            animation: slideDown 0.25s ease both;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .nav-mobile.open { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-mobile a {
+            padding: 11px 16px; color: #374151;
+            text-decoration: none; font-size: 15px; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s; display: block;
+        }
+        .nav-mobile a:hover { background: rgba(13,27,42,0.05); color: var(--navy); }
+        .nav-mobile a.active { background: rgba(201,168,76,0.12); color: var(--navy); font-weight: 600; }
+        .nav-mobile .nav-cta { margin-top: 8px; text-align: center; display: block !important; padding: 12px 20px !important; }
+        .nav-mobile-divider { height: 1px; background: #f3f4f6; margin: 8px 0; }
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+        </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+        <div class="logo-wordmark">
+            <span class="logo-text">My<span>Choize</span></span>
+            <span class="logo-tagline">Premium Car Rentals</span>
+        </div>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+        <div class="nav-avatar" id="navAvatar" title="Profile">👤</div>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="profile.html">Profile</a>
+    <div class="nav-mobile-divider"></div>
+    <a href="index.html#booking" class="nav-cta">&#x1F511; Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="hero-inner">
+        <div class="page-badge"><span></span> We're Here to Help</div>
+        <h1>Get in <em>Touch</em><br>with Our Team</h1>
+        <p>Questions, bookings, corporate enquiries, or just want to say hello — our team is always ready to help you find the perfect ride.</p>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="sep">›</span>
+            <span class="current">Contact Us</span>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+    <div class="contact-inner">
+
+        <!-- LEFT: Info Cards -->
+        <div class="info-col">
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="info-text">
+                    <h4>Our Location</h4>
+                    <p>Plot No. 27, MG Road<br>Benz Circle, Vijayawada<br>Andhra Pradesh – 520010, India</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+                <div class="info-text">
+                    <h4>Phone Number</h4>
+                    <p><a href="tel:+919182352345">+91 91823 52345</a></p>
+                    <p style="margin-top:4px"><a href="tel:+919182352346" style="font-size:13px;color:var(--gray)">+91 91823 52346 (Support)</a></p>
+                    <div class="status-pill"><span class="status-dot"></span> Available Now</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+                </div>
+                <div class="info-text">
+                    <h4>Email Address</h4>
+                    <p><a href="/cdn-cgi/l/email-protection#51383f373e113c2832393e382b347f323e3c"><span class="__cf_email__" data-cfemail="abc2c5cdc4ebc6d2c8c3c4c2d1ce85c8c4c6">[email&#160;protected]</span></a></p>
+                    <p style="margin-top:4px"><a href="/cdn-cgi/l/email-protection#4c3f393c3c233e380c21352f2423253629622f2321" style="font-size:13px;color:var(--gray)"><span class="__cf_email__" data-cfemail="bed7d0d8d1fed3c7ddd6d1d7c4db90ddd1d3">[email&#160;protected]</span></a></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="info-text">
+                    <h4>Business Hours</h4>
+                    <div class="hours-row"><span>Monday – Friday</span><span>9:00 AM – 5:00 PM</span></div>
+                    <div class="hours-row"><span>Saturday</span><span>10:00 AM – 4:00 PM</span></div>
+                    <div class="hours-row"><span>Sunday</span><span class="closed">Closed</span></div>
+                </div>
+            </div>
+
+            <div class="info-card" style="flex-direction:column;gap:12px">
+                <h4 style="font-size:14px;font-weight:700;color:var(--navy)">Follow Us</h4>
+                <p style="font-size:13px;color:var(--gray)">Stay connected for offers, updates & travel tips.</p>
+                <div class="social-row">
+                    <a href="#" class="social-btn">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn">
+                        <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" class="social-btn">
+                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: Contact Form -->
+        <div class="form-card">
+            <div class="form-card-header">
+                <div class="section-label">Send a Message</div>
+                <h2>How Can We<br>Help You?</h2>
+                <p>Fill in the form below and our team will get back to you within 24 hours.</p>
+            </div>
+
+            <!-- Quick-select tabs -->
+            <div class="subject-tabs">
+                <button class="tab-btn active" onclick="setTab(this, 'General Inquiry')">General Inquiry</button>
+                <button class="tab-btn" onclick="setTab(this, 'Booking Support')">Booking Support</button>
+                <button class="tab-btn" onclick="setTab(this, 'Corporate Rental')">Corporate Rental</button>
+                <button class="tab-btn" onclick="setTab(this, 'Feedback')">Feedback</button>
+            </div>
+
+            <form id="contactForm" novalidate>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                            <input type="text" id="name" placeholder="Your full name">
+                        </div>
+                        <div class="error-msg" id="nameErr">Please enter your name.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg></span>
+                            <input type="email" id="email" placeholder="you@example.com">
+                        </div>
+                        <div class="error-msg" id="emailErr">Please enter a valid email.</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+                            <input type="tel" id="phone" placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject *</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
+                            <input type="text" id="subject" placeholder="What's this about?">
+                        </div>
+                        <div class="error-msg" id="subjectErr">Please enter a subject.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Message *</label>
+                    <textarea id="message" placeholder="Tell us how we can help you…"></textarea>
+                    <div class="error-msg" id="msgErr">Please enter a message.</div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Send Message</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <span class="spinner"></span>
+                </button>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+    <div class="map-inner">
+        <h3>Find Us on the Map</h3>
+        <div class="map-frame">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.8!2d80.6480!3d16.5062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f0a2a4b0e02b%3A0x7b4f4a5d6c3e9a1f!2sMG+Road%2C+Vijayawada%2C+Andhra+Pradesh!5e0!3m2!1sen!2sin!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="map-overlay-badge">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                MG Road, Vijayawada — 520010
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <div class="faq-inner">
+        <div class="faq-header">
+            <div class="section-label">Quick Answers</div>
+            <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">How quickly will you respond to my message? <span class="faq-arrow">▾</span></div>
+                <div class="faq-a"><p>We typically respond to all enquiries within 24 business hours. For urgent matters, please call us directly at +91 91823 52345 for an immediate response.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">Can I modify or cancel my booking? <span class="faq-arrow">▾</span></div>
+                <div class="faq-a"><p>Yes — all bookings can be modified or cancelled up to 24 hours before your scheduled pickup time at no charge. Contact us via email or phone to make changes.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">Do you offer corporate or bulk rental packages? <span class="faq-arrow">▾</span></div>
+                <div class="faq-a"><p>Absolutely. We have dedicated corporate packages with priority booking, monthly billing, and a dedicated account manager. Use the "Corporate Rental" tab in the contact form above to get started.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">What documents do I need to rent a car? <span class="faq-arrow">▾</span></div>
+                <div class="faq-a"><p>You'll need a valid driving licence, a government-issued photo ID (Aadhaar/Passport), and a credit or debit card for the security deposit. International drivers need an International Driving Permit.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">Is 24/7 roadside assistance included in every rental? <span class="faq-arrow">▾</span></div>
+                <div class="faq-a"><p>Yes. All rentals include round-the-clock roadside assistance. If you experience any issue during your trip, call our support line and our nearest technician will reach you promptly.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <div class="section-label">Ready to Drive?</div>
+        <h2 class="section-title">Explore Our <span>Fleet Today</span></h2>
+        <p>Browse 50+ premium vehicles, book in under 2 minutes, and hit the road with complete confidence.</p>
+        <div class="cta-buttons">
+            <a href="index.html" class="btn-primary">View Our Fleet</a>
+            <a href="services.html" class="btn-outline">Our Services</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width:36px;height:36px">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#c9a84c"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                </div>
+                <span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white">My<span style="color:var(--gold)">Choize</span></span>
+            </div>
+            <p>Premium car rentals across India. Comfort, safety, and freedom — delivered to your door.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Quick Links</h5>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h5>Services</h5>
+            <a href="#">Long-Term Leasing</a>
+            <a href="#">Airport Transfers</a>
+            <a href="#">Corporate Rentals</a>
+            <a href="#">Roadside Assistance</a>
+        </div>
+        <div class="footer-col">
+            <h5>Contact</h5>
+            <a href="tel:+91 91823 52345">+91 91823 52345</a>
+            <a href="mailto:info@mychoize.com">info@mychoize.com</a>
+            <a href="#">Find a Location</a>
+            <a href="#">24/7 Support</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 MyChoize. All rights reserved.</span>
+        <div>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Sitemap</a>
+        </div>
+    </div>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <div class="modal-icon">✉️</div>
+        <h3>Message Sent!</h3>
+        <p>Thank you for reaching out. Our team will get back to you within 24 business hours.</p>
+        <button class="modal-close" onclick="document.getElementById('successModal').classList.remove('open')">Done</button>
+    </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+    // Scroll shadow
+    
+
+    // Subject tab auto-fills subject field
+    function setTab(btn, label) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('subject').value = label;
+    }
+
+    // FAQ accordion
+    function toggleFaq(el) {
+        const answer = el.nextElementSibling;
+        const isOpen = el.classList.contains('open');
+        document.querySelectorAll('.faq-q.open').forEach(q => { q.classList.remove('open'); q.nextElementSibling.classList.remove('open'); });
+        if (!isOpen) { el.classList.add('open'); answer.classList.add('open'); }
+    }
+
+    // Validation
+    function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function setErr(id, errId, valid) {
+        document.getElementById(id).classList.toggle('error', !valid);
+        document.getElementById(errId).classList.toggle('show', !valid);
+        return valid;
+    }
+
+    document.getElementById('name').addEventListener('input',    e => setErr('name',    'nameErr',    e.target.value.trim().length > 0));
+    document.getElementById('email').addEventListener('input',   e => setErr('email',   'emailErr',   validateEmail(e.target.value)));
+    document.getElementById('subject').addEventListener('input', e => setErr('subject', 'subjectErr', e.target.value.trim().length > 0));
+    document.getElementById('message').addEventListener('input', e => setErr('message', 'msgErr',     e.target.value.trim().length > 0));
+
+    function showAuthPrompt(redirectUrl) {
+        const next = redirectUrl || window.location.href;
+        localStorage.setItem('mychoize_next', next);
+        sessionStorage.setItem('mychoize_next', next);
+        const overlay = document.getElementById('authPrompt');
+        if (overlay) overlay.classList.add('open');
+    }
+
+    function closeAuthPrompt() {
+        const overlay = document.getElementById('authPrompt');
+        if (overlay) overlay.classList.remove('open');
+    }
+
+    function requireLogin(redirectUrl) {
+        if (isLoggedIn()) return true;
+        showAuthPrompt(redirectUrl);
+        return false;
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        if (!requireLogin(window.location.pathname + '#contactForm')) return;
+        const n  = setErr('name',    'nameErr',    document.getElementById('name').value.trim().length > 0);
+        const em = setErr('email',   'emailErr',   validateEmail(document.getElementById('email').value));
+        const s  = setErr('subject', 'subjectErr', document.getElementById('subject').value.trim().length > 0);
+        const m  = setErr('message', 'msgErr',     document.getElementById('message').value.trim().length > 0);
+
+        if (!n || !em || !s || !m) return;
+
+        document.getElementById('successModal').classList.add('open');
+        document.getElementById('contactForm').reset();
+    });
+</script>
+
+<script>
+// ── NAVBAR: scroll shadow + hamburger toggle ──
+(function() {
+    var nb  = document.getElementById('navbar');
+    var ham = document.getElementById('navHamburger');
+    var mob = document.getElementById('navMobile');
+    if (nb) {
+        window.addEventListener('scroll', function() {
+            nb.classList.toggle('scrolled', window.scrollY > 20);
+        });
+    }
+    if (ham && mob) {
+        ham.addEventListener('click', function() {
+            ham.classList.toggle('open');
+            mob.classList.toggle('open');
+        });
+        mob.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', function() {
+                ham.classList.remove('open');
+                mob.classList.remove('open');
+            });
+        });
+    }
+})();
+</script>
+
+<script>
+    function isLoggedIn() {
+        const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
+        const local = localStorage.getItem('mychoize_logged_in') === 'true' &&
+                      localStorage.getItem('mychoize_remember') === 'true';
+        return session || local;
+    }
+
+    function getUserValue(key) {
+        return sessionStorage.getItem(key) ?? localStorage.getItem(key) ?? '';
+    }
+
+    function signOut() {
+        ['mychoize_logged_in', 'mychoize_user_email', 'mychoize_user_name', 'mychoize_user_created', 'mychoize_user', 'mychoize_remember'].forEach(k => {
+            localStorage.removeItem(k);
+            sessionStorage.removeItem(k);
+        });
+        window.location.href = 'index.html';
+    }
+
+    function getUserInitial() {
+        const name = (getUserValue('mychoize_user_name') || '').trim();
+        const email = (getUserValue('mychoize_user_email') || '').trim();
+        const base = name || (email.split('@')[0] || '');
+        return base ? base.trim()[0].toUpperCase() : '';
+    }
+
+    function updateProfileAvatar() {
+        const avatar = document.getElementById('navAvatar');
+        if (!avatar) return;
+        const loggedIn = isLoggedIn();
+        const initial = getUserInitial() || '👤';
+        avatar.textContent = loggedIn ? initial : '👤';
+        avatar.classList.toggle('logged-in', loggedIn);
+        avatar.title = loggedIn ? (getUserValue('mychoize_user_name') || getUserValue('mychoize_user_email') || 'Profile') : 'Profile';
+        avatar.onclick = () => window.location.href = 'profile.html';
+    }
+
+    function updateAuthLinks() {
+        var loggedIn = isLoggedIn();
+        document.querySelectorAll('[data-auth="toggle"]').forEach(function(el){
+            if (loggedIn) {
+                el.textContent = 'Sign Out';
+                el.href = '#';
+                el.onclick = function(e){ e.preventDefault(); signOut(); };
+            } else {
+                el.textContent = 'Sign In';
+                el.href = 'login.html';
+                el.onclick = null;
+            }
+        });
+        updateProfileAvatar();
+    }
+
+    document.addEventListener('DOMContentLoaded', updateAuthLinks);
+    updateAuthLinks();
+</script>
+
+<div class="auth-prompt-overlay" id="authPrompt">
+    <div class="auth-prompt">
+        <button class="auth-close" onclick="closeAuthPrompt()" aria-label="Close">×</button>
+        <div class="auth-prompt-header">
+            <div class="auth-prompt-icon">🔒</div>
+            <h3>You're almost there</h3>
+            <p>Sign in to continue — your selections will be saved and your booking will finish smoothly.</p>
+        </div>
+        <div class="auth-actions">
+            <a class="btn btn-primary" href="login.html">Login</a>
+            <a class="btn btn-secondary" href="sign_up.html">Sign Up</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

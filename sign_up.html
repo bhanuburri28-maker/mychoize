@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — MyChoize</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b2a'/%3E%3Cpath fill='%23c9a84c' d='M25.23 11.68C24.96 10.85 24.21 10.28 23.33 10.28H8.67c-.88 0-1.62.57-1.9 1.4L4 19.5v6c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5V24h16v1.5c0 .83.67 1.5 1.5 1.5h1c.83 0 1.5-.67 1.5-1.5v-6l-2.77-7.82zM9.5 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm13 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 17.5l2-6h14l2 6H7z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy-mid: #1a2e45;
+            --gold: #c9a84c;
+            --gold-light: #e8c97e;
+            --cream: #f8f4ef;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --border: #e5e7eb;
+            --error: #e53e3e;
+            --success: #2f855a;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* ── LEFT PANEL ── */
+        .left-panel {
+            width: 420px;
+            flex-shrink: 0;
+            background: var(--navy);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=900') center/cover no-repeat;
+            opacity: 0.15;
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .brand {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeUp 0.7s ease both;
+        }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: var(--gold);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .brand-icon svg { width: 24px; height: 24px; fill: var(--navy); }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px; font-weight: 700;
+            color: var(--white);
+        }
+        .brand-name span { color: var(--gold); }
+
+        .left-content {
+            position: relative;
+            animation: fadeUp 0.7s 0.15s ease both;
+        }
+        .left-tagline {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 16px;
+        }
+        .left-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(30px, 3vw, 46px);
+            font-weight: 700; color: var(--white);
+            line-height: 1.12; margin-bottom: 20px;
+        }
+        .left-headline em { color: var(--gold); font-style: normal; }
+        .left-body {
+            font-size: 14px; color: rgba(255,255,255,0.5);
+            line-height: 1.8; font-weight: 300;
+        }
+
+        /* Perks list */
+        .perks {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+        .perk {
+            display: flex; align-items: center; gap: 14px;
+        }
+        .perk-icon {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: rgba(201,168,76,0.15);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .perk-text { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+        .perk-text strong { color: var(--white); font-weight: 600; display: block; }
+
+        /* ── RIGHT PANEL ── */
+        .right-panel {
+            flex: 1;
+            background: var(--cream);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 48px 52px;
+            overflow-y: auto;
+            position: relative;
+            min-height: 100vh;
+        }
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -80px;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            border: 40px solid rgba(201,168,76,0.07);
+            pointer-events: none;
+        }
+
+        .form-wrap {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.7s 0.1s ease both;
+            
+        }
+
+        .form-header { margin-bottom: 32px; }
+        .form-header p {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 8px;
+        }
+        .form-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px; font-weight: 700;
+            color: var(--navy); line-height: 1.15;
+        }
+        .form-header .sub {
+            color: var(--gray); font-size: 14px;
+            display: block; margin-top: 8px;
+        }
+
+        /* Two-column row */
+        .form-row {
+            display: flex; gap: 14px;
+        }
+        .form-row .input-group { flex: 1; }
+
+        .input-group { margin-bottom: 18px; }
+        .input-group label {
+            display: block;
+            font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--gray); margin-bottom: 7px;
+        }
+
+        .input-wrap {
+            position: relative; display: flex; align-items: center;
+        }
+        .input-icon {
+            position: absolute; left: 13px;
+            color: #bbb; pointer-events: none; display: flex;
+        }
+        .input-icon svg { width: 15px; height: 15px; }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px; color: var(--navy);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-group input::placeholder { color: #c5c9d0; }
+        .input-group input:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(13,27,42,0.07);
+        }
+        .input-group input.error { border-color: var(--error); }
+        .input-group input.valid { border-color: #68d391; }
+
+        .toggle-pw {
+            position: absolute; right: 12px;
+            background: none; border: none; cursor: pointer;
+            color: #bbb; display: flex; padding: 0;
+            transition: color 0.2s;
+        }
+        .toggle-pw:hover { color: var(--navy); }
+        .toggle-pw svg { width: 16px; height: 16px; }
+
+        .error-msg {
+            font-size: 12px; color: var(--error);
+            margin-top: 5px; display: none;
+        }
+        .error-msg.show { display: block; }
+
+        /* Password strength bar */
+        .strength-wrap { margin-top: 8px; display: none; }
+        .strength-wrap.show { display: block; }
+        .strength-bar-bg {
+            height: 4px; background: #e5e7eb;
+            border-radius: 4px; overflow: hidden; margin-bottom: 5px;
+        }
+        .strength-bar {
+            height: 100%; border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+            width: 0%;
+        }
+        .strength-label { font-size: 11px; color: var(--gray); }
+
+        /* Terms */
+        .terms-row {
+            display: flex; align-items: flex-start; gap: 10px;
+            margin-bottom: 22px;
+        }
+        .terms-row input[type="checkbox"] { display: none; }
+        .custom-check {
+            width: 17px; height: 17px; flex-shrink: 0; margin-top: 1px;
+            border: 1.5px solid var(--border);
+            border-radius: 4px; background: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .terms-row input:checked ~ .custom-check {
+            background: var(--navy); border-color: var(--navy);
+        }
+        .terms-row input:checked ~ .custom-check::after {
+            content: '';
+            display: block; width: 4px; height: 8px;
+            border: 2px solid white;
+            border-top: none; border-left: none;
+            transform: rotate(45deg) translate(-1px, -1px);
+        }
+        .terms-text { font-size: 13px; color: var(--gray); line-height: 1.5; }
+        .terms-text a { color: var(--navy); text-decoration: none; font-weight: 600; }
+        .terms-text a:hover { color: var(--gold); }
+
+        /* Submit */
+        .signup-btn {
+            width: 100%; padding: 14px;
+            background: var(--navy); color: var(--white);
+            border: none; border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer; letter-spacing: 0.01em;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .signup-btn::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+        .signup-btn:hover::before { transform: translateX(100%); }
+        .signup-btn:hover {
+            background: var(--gold); color: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+        }
+        .signup-btn svg { width: 16px; height: 16px; transition: transform 0.2s; }
+        .signup-btn:hover svg { transform: translateX(3px); }
+
+        .signup-btn .spinner {
+            display: none; width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.35);
+            border-top-color: white; border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .signup-btn.loading .spinner { display: block; }
+        .signup-btn.loading .btn-text { opacity: 0.5; }
+        .signup-btn a{text-decoration: none;}
+
+        /* Divider */
+        .divider {
+            display: flex; align-items: center; gap: 14px;
+            margin: 20px 0;
+        }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .divider span { font-size: 12px; color: #bbb; white-space: nowrap; }
+
+        .social-row { display: flex; gap: 12px; }
+        .social-btn {
+            flex: 1; padding: 11px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px; font-weight: 500; color: var(--navy);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .social-btn:hover { border-color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .social-btn img { width: 16px; height: 16px; }
+
+        .login-link {
+            text-align: center; margin-top: 24px;
+            font-size: 14px; color: var(--gray);
+        }
+        .login-link a { color: var(--navy); text-decoration: none; font-weight: 600; }
+        .login-link a:hover { color: var(--gold); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 860px) {
+            .left-panel { display: none; }
+            .right-panel { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+            </div>
+            <span class="brand-name">My<span>Choize</span></span>
+        </div>
+
+        <div class="left-content">
+            <div class="left-tagline">Join Today — It's Free</div>
+            <h1 class="left-headline">Your Next<br><em>Adventure</em><br>Awaits You</h1>
+            <p class="left-body">Create your account and unlock access to India's finest car rental fleet. Fast booking, transparent pricing, zero hidden fees.</p>
+        </div>
+
+        <div class="perks">
+            <div class="perk">
+                <div class="perk-icon">⚡</div>
+                <div class="perk-text">
+                    <strong>Instant Confirmation</strong>
+                    Book any car in under 2 minutes.
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🛡️</div>
+                <div class="perk-text">
+                    <strong>Full Insurance Included</strong>
+                    Every rental comes fully covered.
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🚗</div>
+                <div class="perk-text">
+                    <strong>50+ Premium Vehicles</strong>
+                    From ₹1,500/day across 25+ cities.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="form-wrap">
+            <div class="form-header">
+                <p>Get Started</p>
+                <h2>Create Your<br>Free Account</h2>
+                <span class="sub">Already a member? <a href="login.html" style="color:var(--gold);font-weight:600;">Sign in →</a></span>
+            </div>
+
+            <form id="signupForm" novalidate>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="firstName">First Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </span>
+                            <input type="text" id="firstName" placeholder="First name" autocomplete="given-name">
+                        </div>
+                        <div class="error-msg" id="firstErr">Please enter your first name.</div>
+                    </div>
+                    <div class="input-group">
+                        <label for="lastName">Last Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </span>
+                            <input type="text" id="lastName" placeholder="Last name" autocomplete="family-name">
+                        </div>
+                        <div class="error-msg" id="lastErr">Please enter your last name.</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+                        </span>
+                        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+                    </div>
+                    <div class="error-msg" id="emailErr">Please enter a valid email address.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                        </span>
+                        <input type="tel" id="phone" placeholder="+91 98765 43210" autocomplete="tel">
+                    </div>
+                    <div class="error-msg" id="phoneErr">Please enter a valid phone number.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </span>
+                        <input type="password" id="password" placeholder="Create a strong password">
+                        <button type="button" class="toggle-pw" id="togglePw1">
+                            <svg id="eye1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                    <div class="strength-wrap" id="strengthWrap">
+                        <div class="strength-bar-bg"><div class="strength-bar" id="strengthBar"></div></div>
+                        <span class="strength-label" id="strengthLabel">Password strength</span>
+                    </div>
+                    <div class="error-msg" id="pwErr">Password must be at least 8 characters.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm">Confirm Password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </span>
+                        <input type="password" id="confirm" placeholder="Re-enter your password">
+                        <button type="button" class="toggle-pw" id="togglePw2">
+                            <svg id="eye2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                    <div class="error-msg" id="confirmErr">Passwords do not match.</div>
+                </div>
+
+                <div class="terms-row">
+                    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+                        <input type="checkbox" id="terms">
+                        <span class="custom-check"></span>
+                        <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> of MyChoize.</span>
+                    </label>
+                </div>
+                <div class="error-msg" id="termsErr" style="margin-top:-10px;margin-bottom:16px">Please accept the terms to continue.</div>
+
+                <button type="submit" class="signup-btn" id="signupBtn">
+                    <span class="btn-text">Create Account</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    <span class="spinner"></span>
+                </button>
+
+                <div class="divider"><span>or sign up with</span></div>
+
+                <div class="social-row">
+                    <button type="button" class="social-btn">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Google
+                    </button>
+                    <button type="button" class="social-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Facebook
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign in here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const eyeOpen  = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+        const eyeClose = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+
+        function makeToggle(btnId, inputId, iconId) {
+            document.getElementById(btnId).addEventListener('click', () => {
+                const inp = document.getElementById(inputId);
+                const ico = document.getElementById(iconId);
+                const isText = inp.type === 'text';
+                inp.type = isText ? 'password' : 'text';
+                ico.innerHTML = isText ? eyeOpen : eyeClose;
+            });
+        }
+        makeToggle('togglePw1', 'password', 'eye1');
+        makeToggle('togglePw2', 'confirm',  'eye2');
+
+        // Custom checkbox
+        document.querySelector('.terms-row label').addEventListener('click', () => {
+            const cb = document.getElementById('terms');
+            cb.checked = !cb.checked;
+        });
+
+        // Password strength
+        const pwInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthLabel = document.getElementById('strengthLabel');
+        const strengthWrap = document.getElementById('strengthWrap');
+
+        pwInput.addEventListener('input', () => {
+            const val = pwInput.value;
+            strengthWrap.classList.toggle('show', val.length > 0);
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const configs = [
+                { w: '25%', bg: '#e53e3e', label: 'Weak' },
+                { w: '50%', bg: '#dd6b20', label: 'Fair' },
+                { w: '75%', bg: '#d69e2e', label: 'Good' },
+                { w: '100%',bg: '#2f855a', label: 'Strong' },
+            ];
+            const c = configs[Math.max(0, score - 1)];
+            strengthBar.style.width = c.w;
+            strengthBar.style.background = c.bg;
+            strengthLabel.textContent = `Strength: ${c.label}`;
+            strengthLabel.style.color = c.bg;
+        });
+
+        // Validation helpers
+        function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+        function validatePhone(v) { return /^[\+\d\s\-]{8,15}$/.test(v); }
+
+        function setField(inputId, errId, valid) {
+            const inp = document.getElementById(inputId);
+            const err = document.getElementById(errId);
+            inp.classList.toggle('error', !valid);
+            inp.classList.toggle('valid',  valid);
+            err.classList.toggle('show', !valid);
+            return valid;
+        }
+
+        // Live validation
+        document.getElementById('firstName').addEventListener('input', e => setField('firstName','firstErr', e.target.value.trim().length > 0));
+        document.getElementById('lastName').addEventListener('input',  e => setField('lastName','lastErr',   e.target.value.trim().length > 0));
+        document.getElementById('email').addEventListener('input',     e => setField('email','emailErr',     validateEmail(e.target.value)));
+        document.getElementById('phone').addEventListener('input',     e => setField('phone','phoneErr',     validatePhone(e.target.value)));
+        document.getElementById('password').addEventListener('input',  e => setField('password','pwErr',     e.target.value.length >= 8));
+        document.getElementById('confirm').addEventListener('input',   e => setField('confirm','confirmErr', e.target.value === document.getElementById('password').value && e.target.value.length > 0));
+
+        // Submit
+        document.getElementById('signupForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const fn  = setField('firstName','firstErr',   document.getElementById('firstName').value.trim().length > 0);
+            const ln  = setField('lastName','lastErr',     document.getElementById('lastName').value.trim().length > 0);
+            const em  = setField('email','emailErr',       validateEmail(document.getElementById('email').value));
+            const ph  = setField('phone','phoneErr',       validatePhone(document.getElementById('phone').value));
+            const pw  = setField('password','pwErr',       document.getElementById('password').value.length >= 8);
+            const cf  = setField('confirm','confirmErr',   document.getElementById('confirm').value === document.getElementById('password').value && document.getElementById('confirm').value.length > 0);
+            const tc  = document.getElementById('terms').checked;
+            document.getElementById('termsErr').classList.toggle('show', !tc);
+
+            if (!fn || !ln || !em || !ph || !pw || !cf || !tc) return;
+
+            const btn = document.getElementById('signupBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+
+                // Store user state in session by default so it doesn't persist across devices/browsers.
+                const storageSet = (key, value) => {
+                    sessionStorage.setItem(key, value);
+                    localStorage.removeItem(key);
+                    localStorage.removeItem('mychoize_remember');
+                };
+
+                if (!sessionStorage.getItem('mychoize_user_created') && !localStorage.getItem('mychoize_user_created')) {
+                    storageSet('mychoize_user_created', new Date().toISOString());
+                }
+                storageSet('mychoize_logged_in', 'true');
+                const fullName = (document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim()).trim();
+                storageSet('mychoize_user_name', fullName);
+                storageSet('mychoize_user_email', document.getElementById('email').value.trim());
+                storageSet('mychoize_user', JSON.stringify({
+                    name: fullName,
+                    email: document.getElementById('email').value.trim(),
+                    password: document.getElementById('password').value
+                }));
+
+                const next = localStorage.getItem('mychoize_next') || sessionStorage.getItem('mychoize_next') || 'index.html';
+                localStorage.removeItem('mychoize_next');
+                sessionStorage.removeItem('mychoize_next');
+                window.location.href = next;
+            }, 1800);
+        });
+
+        function isLoggedIn() {
+            const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
+            const local = localStorage.getItem('mychoize_logged_in') === 'true' && localStorage.getItem('mychoize_remember') === 'true';
+            return session || local;
+        }
+
+        // Redirect if already logged in
+        if (isLoggedIn()) {
+            const next = localStorage.getItem('mychoize_next') || sessionStorage.getItem('mychoize_next') || 'index.html';
+            localStorage.removeItem('mychoize_next');
+            sessionStorage.removeItem('mychoize_next');
+            window.location.href = next;
+        }
+    </script>
+</body>
+</html>
