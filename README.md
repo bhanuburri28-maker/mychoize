@@ -46,8 +46,8 @@ MyChoize/
 ├── login.html                 
 ├── signup.html                 
 ├── booking.html                
-├── booking-confirmation.html   
-├── confirmed-model.html 
+├── booking_confirmation.html   
+├── confirmed_model.html 
 
 
 ## 🎯 Purpose of the Project
