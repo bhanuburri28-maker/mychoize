@@ -12,7 +12,7 @@ This project focuses on creating a responsive and visually appealing design usin
 - Services Page
 - Booking Confirmation Page
 - Model Confirmation Page
-- Login Page
+- Login page
 - Sign up Page
 - Profile Page
 
