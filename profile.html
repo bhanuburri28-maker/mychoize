@@ -270,6 +270,17 @@
                 <button class="btn btn-secondary" onclick="signOut()">Sign Out</button>
             </div>
         </div>
+
+        <div class="section-block" id="aiSection">
+            <h3>AI Trip Planner</h3>
+            <p>Ask the Google AI Studio assistant for rental suggestions, trip ideas, or local driving tips.</p>
+            <div style="display:grid;gap:14px;">
+                <textarea id="aiPrompt" rows="4" placeholder="Ask the AI for a car recommendation or a road trip plan..." style="width:100%;padding:16px;border:1px solid #d1d5db;border-radius:16px;font-size:0.95rem;resize:vertical"></textarea>
+                <button class="btn btn-primary" id="aiGenerateBtn" type="button">Generate suggestion</button>
+                <div id="aiStatus" style="font-size:0.95rem;color:#6b7280;min-height:24px"></div>
+                <div id="aiOutput" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:18px;white-space:pre-wrap;color:#111827;display:none;"></div>
+            </div>
+        </div>
     </section>
 </main>
 
@@ -278,6 +289,7 @@
     <div style="display:flex; gap: 18px;"><a href="#" style="color: rgba(55,65,81,0.7);">Privacy</a><a href="#" style="color: rgba(55,65,81,0.7);">Terms</a></div>
 </footer>
 
+<script src="/public/js/backend.js"></script>
 <script>
     function isLoggedIn() {
         const session = sessionStorage.getItem('mychoize_logged_in') === 'true';
@@ -431,6 +443,39 @@
         }).join('');
     }
 
+    async function generateAiSuggestion() {
+        const promptInput = document.getElementById('aiPrompt');
+        const outputEl = document.getElementById('aiOutput');
+        const statusEl = document.getElementById('aiStatus');
+        const button = document.getElementById('aiGenerateBtn');
+
+        const prompt = promptInput.value.trim();
+        if (!prompt) {
+            statusEl.textContent = 'Please write a question or prompt first.';
+            return;
+        }
+        if (!isLoggedIn()) {
+            statusEl.textContent = 'Please sign in to use the AI assistant.';
+            return;
+        }
+
+        button.disabled = true;
+        statusEl.textContent = 'Generating suggestion...';
+        outputEl.style.display = 'none';
+
+        try {
+            const response = await fetchAiText(prompt, { temperature: 0.7, maxTokens: 200 });
+            outputEl.textContent = response.data.output || 'No suggestion returned.';
+            outputEl.style.display = 'block';
+            statusEl.textContent = 'Suggestion generated successfully.';
+        } catch (err) {
+            statusEl.textContent = err.payload?.message || err.message || 'Unable to generate suggestion.';
+            outputEl.style.display = 'none';
+        } finally {
+            button.disabled = false;
+        }
+    }
+
     function clearBookingHistory() {
         localStorage.removeItem('mychoize_booking_history');
         renderBookingHistory();
@@ -440,6 +485,8 @@
         updateProfileAvatar();
         updateProfilePage();
         renderBookingHistory();
+        const aiBtn = document.getElementById('aiGenerateBtn');
+        if (aiBtn) aiBtn.addEventListener('click', generateAiSuggestion);
     });
 
     (function() {

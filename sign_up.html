@@ -464,6 +464,7 @@
                     </div>
                     <div class="error-msg" id="pwErr">Password must be at least 8 characters.</div>
                 </div>
+                <div class="error-msg" id="signupError" style="display:none;margin-top:10px;color:#e53e3e;font-size:0.95rem"></div>
 
                 <div class="input-group">
                     <label for="confirm">Confirm Password</label>
@@ -515,6 +516,7 @@
         </div>
     </div>
 
+    <script src="/public/js/backend.js?v=1"></script>
     <script>
         const eyeOpen  = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
         const eyeClose = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
@@ -530,12 +532,6 @@
         }
         makeToggle('togglePw1', 'password', 'eye1');
         makeToggle('togglePw2', 'confirm',  'eye2');
-
-        // Custom checkbox
-        document.querySelector('.terms-row label').addEventListener('click', () => {
-            const cb = document.getElementById('terms');
-            cb.checked = !cb.checked;
-        });
 
         // Password strength
         const pwInput = document.getElementById('password');
@@ -587,7 +583,7 @@
         document.getElementById('confirm').addEventListener('input',   e => setField('confirm','confirmErr', e.target.value === document.getElementById('password').value && e.target.value.length > 0));
 
         // Submit
-        document.getElementById('signupForm').addEventListener('submit', e => {
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const fn  = setField('firstName','firstErr',   document.getElementById('firstName').value.trim().length > 0);
             const ln  = setField('lastName','lastErr',     document.getElementById('lastName').value.trim().length > 0);
@@ -603,35 +599,36 @@
             const btn = document.getElementById('signupBtn');
             btn.classList.add('loading');
             btn.disabled = true;
-            setTimeout(() => {
-                btn.classList.remove('loading');
-                btn.disabled = false;
 
-                // Store user state in session by default so it doesn't persist across devices/browsers.
-                const storageSet = (key, value) => {
-                    sessionStorage.setItem(key, value);
-                    localStorage.removeItem(key);
-                    localStorage.removeItem('mychoize_remember');
-                };
+            try {
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const password = document.getElementById('password').value;
+                const payload = { firstName, lastName, email, phone, password };
 
-                if (!sessionStorage.getItem('mychoize_user_created') && !localStorage.getItem('mychoize_user_created')) {
-                    storageSet('mychoize_user_created', new Date().toISOString());
-                }
-                storageSet('mychoize_logged_in', 'true');
-                const fullName = (document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim()).trim();
-                storageSet('mychoize_user_name', fullName);
-                storageSet('mychoize_user_email', document.getElementById('email').value.trim());
-                storageSet('mychoize_user', JSON.stringify({
-                    name: fullName,
-                    email: document.getElementById('email').value.trim(),
-                    password: document.getElementById('password').value
-                }));
+                console.log('Signup payload:', payload);
+                const response = await apiRequest('/auth/register', 'POST', payload);
+                console.log('Signup response:', response);
+                setAuthState(response.data.user, response.data.token, false);
 
                 const next = localStorage.getItem('mychoize_next') || sessionStorage.getItem('mychoize_next') || 'index.html';
                 localStorage.removeItem('mychoize_next');
                 sessionStorage.removeItem('mychoize_next');
                 window.location.href = next;
-            }, 1800);
+            } catch (err) {
+                console.error('Signup catch error:', err);
+                const signupError = document.getElementById('signupError');
+                if (signupError) {
+                    signupError.textContent = err.payload?.message || err.message || `Signup failed (${err.status || 'unknown'}). Please try again.`;
+                    signupError.style.display = 'block';
+                }
+                console.error('Signup error:', err);
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
         });
 
         function isLoggedIn() {

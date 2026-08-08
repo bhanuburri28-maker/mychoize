@@ -1710,7 +1710,7 @@
     }
 
     // ── BOOKING FORM SUBMISSION ──
-    function submitBooking() {
+    async function submitBooking() {
         if (!requireLogin(window.location.pathname + '#booking')) return;
         const form = document.getElementById('bookingForm');
         if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -1724,34 +1724,53 @@
 
         const bookingPrice = document.getElementById('priceInput').value || document.getElementById('budgetSelect').value;
         const bookingData = {
-            carName:    selectedCar || carType,
-            carType,
+            carId: null,
             pickup,
             dropoff,
             pickupDate: dates[0]?.value,
             pickupTime: times[0]?.value,
             returnDate: dates[1]?.value,
             returnTime: times[1]?.value,
-            price: bookingPrice,
-            carPrice: bookingPrice
+            price: Number(bookingPrice?.replace(/[^0-9.-]+/g, '')) || 0,
+            notes: `Selected car: ${selectedCar || carType}`
         };
 
-        console.log('Booking submitted', bookingData);
-        sessionStorage.setItem('mychoize_booking', JSON.stringify(bookingData));
+        try {
+            const response = await apiRequest('/bookings', 'POST', bookingData, true);
+            const successData = response?.data || {};
+            const bookingId = successData.bookingId || response?.bookingId || null;
 
-        addBookingHistory({
-            bookingDate: new Date().toISOString(),
-            service: carType,
-            carName: bookingData.carName,
-            carPrice: bookingData.carPrice,
-            pickup: bookingData.pickup,
-            dropoff: bookingData.dropoff,
-            status: 'Pending',
-            details: bookingData
-        });
+            sessionStorage.setItem('mychoize_booking', JSON.stringify({
+                ...bookingData,
+                bookingId,
+                carName: selectedCar || carType,
+                carType,
+                carPrice: bookingPrice,
+                pickup,
+                dropoff,
+                pickupDate: bookingData.pickupDate,
+                pickupTime: bookingData.pickupTime,
+                returnDate: bookingData.returnDate,
+                returnTime: bookingData.returnTime
+            }));
 
-        resetBookingForm();
-        window.location.href = 'booking_confirmation.html';
+            addBookingHistory({
+                bookingDate: new Date().toISOString(),
+                service: carType,
+                carName: selectedCar || carType,
+                carPrice: bookingPrice,
+                pickup,
+                dropoff,
+                status: 'Pending',
+                details: { ...bookingData, bookingId }
+            });
+
+            resetBookingForm();
+            window.location.href = 'booking_confirmation.html';
+        } catch (error) {
+            console.error('Booking submission failed', error);
+            alert(error.message || 'Unable to create booking right now. Please try again.');
+        }
     }
 
     function isLoggedIn() {

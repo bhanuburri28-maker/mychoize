@@ -755,6 +755,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     <span class="spinner"></span>
                 </button>
+                <div class="error-msg" id="contactError" style="display:none;margin-top:10px;color:#e53e3e;font-size:0.95rem"></div>
 
             </form>
         </div>
@@ -875,6 +876,7 @@
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="/public/js/backend.js"></script>
 <script>
     // Scroll shadow
     
@@ -906,6 +908,7 @@
     document.getElementById('email').addEventListener('input',   e => setErr('email',   'emailErr',   validateEmail(e.target.value)));
     document.getElementById('subject').addEventListener('input', e => setErr('subject', 'subjectErr', e.target.value.trim().length > 0));
     document.getElementById('message').addEventListener('input', e => setErr('message', 'msgErr',     e.target.value.trim().length > 0));
+    const contactError = document.getElementById('contactError');
 
     function showAuthPrompt(redirectUrl) {
         const next = redirectUrl || window.location.href;
@@ -926,18 +929,40 @@
         return false;
     }
 
-    document.getElementById('contactForm').addEventListener('submit', e => {
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!requireLogin(window.location.pathname + '#contactForm')) return;
-        const n  = setErr('name',    'nameErr',    document.getElementById('name').value.trim().length > 0);
-        const em = setErr('email',   'emailErr',   validateEmail(document.getElementById('email').value));
-        const s  = setErr('subject', 'subjectErr', document.getElementById('subject').value.trim().length > 0);
-        const m  = setErr('message', 'msgErr',     document.getElementById('message').value.trim().length > 0);
+        contactError.style.display = 'none';
+        contactError.textContent = '';
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        const n  = setErr('name',    'nameErr',    name.length > 0);
+        const em = setErr('email',   'emailErr',   validateEmail(email));
+        const s  = setErr('subject', 'subjectErr', subject.length > 0);
+        const m  = setErr('message', 'msgErr',     message.length > 0);
 
         if (!n || !em || !s || !m) return;
 
-        document.getElementById('successModal').classList.add('open');
-        document.getElementById('contactForm').reset();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        try {
+            await apiRequest('/contacts', 'POST', { name, email, phone, subject, message });
+            document.getElementById('successModal').classList.add('open');
+            document.getElementById('contactForm').reset();
+        } catch (err) {
+            contactError.textContent = err.payload?.message || err.message || 'Unable to send message. Please try again later.';
+            contactError.style.display = 'block';
+        } finally {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        }
     });
 </script>
 

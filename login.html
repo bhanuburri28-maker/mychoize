@@ -457,6 +457,7 @@
                         </button>
                     </div>
                     <div class="error-msg" id="pwErr">Password must be at least 6 characters.</div>
+                    <div class="error-msg" id="loginError" style="display:none;margin-top:10px;"></div>
                 </div>
 
                 <div class="form-meta">
@@ -495,6 +496,7 @@
         </div>
     </div>
 
+    <script src="/public/js/backend.js?v=1"></script>
     <script>
         // Toggle password visibility
         const pwInput = document.getElementById('password');
@@ -521,17 +523,12 @@
             eyeIcon.innerHTML = isText ? eyeOpen : eyeClosed;
         });
 
-        // Custom checkbox
-        document.querySelector('.remember').addEventListener('click', () => {
-            const cb = document.getElementById('remember');
-            cb.checked = !cb.checked;
-        });
-
         // Form validation + submit
         const form = document.getElementById('loginForm');
         const emailInput = document.getElementById('email');
         const emailErr = document.getElementById('emailErr');
         const pwErr = document.getElementById('pwErr');
+        const loginError = document.getElementById('loginError');
         const loginBtn = document.getElementById('loginBtn');
 
         function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
@@ -548,8 +545,10 @@
             pwErr.classList.toggle('show', !valid && pwInput.value.length > 0);
         });
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            loginError.style.display = 'none';
+            loginError.textContent = '';
             let ok = true;
 
             if (!validateEmail(emailInput.value)) {
@@ -565,50 +564,27 @@
 
             if (!ok) return;
 
-            // Save logged-in user info (no backend required)
             const email = emailInput.value.trim();
-            const name = (email.split('@')[0] || email).trim();
+            const password = pwInput.value;
             const remember = document.getElementById('remember').checked;
 
-            const storageSet = (key, value) => {
-                if (remember) {
-                    localStorage.setItem(key, value);
-                    sessionStorage.removeItem(key);
-                    localStorage.setItem('mychoize_remember', 'true');
-                } else {
-                    sessionStorage.setItem(key, value);
-                    localStorage.removeItem(key);
-                    localStorage.removeItem('mychoize_remember');
-                }
-            };
-
-            const createdKey = 'mychoize_user_created';
-            const createdValue = localStorage.getItem(createdKey) || sessionStorage.getItem(createdKey);
-            if (!createdValue) {
-                storageSet(createdKey, new Date().toISOString());
-            }
-            storageSet('mychoize_logged_in', 'true');
-            storageSet('mychoize_user_email', email);
-            storageSet('mychoize_user_name', name);
-            storageSet('mychoize_user', JSON.stringify({ email, password: pwInput.value, name }));
-
-            // Simulate async login
             loginBtn.classList.add('loading');
             loginBtn.disabled = true;
-            setTimeout(() => {
-                loginBtn.classList.remove('loading');
-                loginBtn.disabled = false;
 
-                // Ensure auth state uses the same storage logic (session vs remember)
-                storageSet('mychoize_logged_in', 'true');
-                storageSet('mychoize_user_email', emailInput.value.trim());
-                storageSet('mychoize_user_name', name);
-
+            try {
+                const response = await apiRequest('/auth/login', 'POST', { email, password });
+                setAuthState(response.data.user, response.data.token, remember);
                 const next = localStorage.getItem('mychoize_next') || sessionStorage.getItem('mychoize_next') || 'index.html';
                 localStorage.removeItem('mychoize_next');
                 sessionStorage.removeItem('mychoize_next');
                 window.location.href = next;
-            }, 1800);
+            } catch (err) {
+                loginError.textContent = err.payload?.message || err.message || 'Login failed. Please try again.';
+                loginError.style.display = 'block';
+            } finally {
+                loginBtn.classList.remove('loading');
+                loginBtn.disabled = false;
+            }
         });
     </script>
 </body>

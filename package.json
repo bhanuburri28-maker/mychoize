@@ -1,0 +1,38 @@
+{
+  "name": "mychoize",
+  "version": "1.0.0",
+  "description": "MyChoize – Premium Car Rental is a frontend web application designed to simulate an online car rental platform. The website provides a modern user interface where users can explore different cars and experience a premium car rental service layout.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhanuburri28-maker/mychoize.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bhanuburri28-maker/mychoize/issues"
+  },
+  "homepage": "https://github.com/bhanuburri28-maker/mychoize#readme",
+  "dependencies": {
+    "@google/genai": "^2.16.0",
+    "axios": "^1.19.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^6.10.0",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
